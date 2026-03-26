@@ -110,46 +110,84 @@
         .tab-btn-inactive { background: white; color: #7f8c8d; border: 1px solid #ced4da; }
         .tab-btn-inactive:hover { background: #f8f9fa; }
 		/* =========================================
-       📱 MAGIA RESPONSIVA PARA CELULARES
-       ========================================= */
-    @media screen and (max-width: 768px) {
-        /* 1. Obligar a los formularios a usar 1 sola columna hacia abajo */
-        .grid-formulario, .formulario-grid, .fila-campos, .dashboard-grid, .contenedor-tarjetas {
-            display: flex !important;
-            flex-direction: column !important;
-            width: 100% !important;
-        }
+           📱 MAGIA RESPONSIVA PARA CELULARES (DINIC V55.0)
+           ========================================= */
+        @media screen and (max-width: 768px) {
+            /* 1. Formularios y Paneles a 1 sola columna */
+            .form-grid, .filter-panel, .welcome-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+            }
 
-        /* 2. Evitar que el mapa y los gráficos rompan la pantalla */
-        .contenedor-mapa, .grafico-container, #mapa-ecuador, canvas {
-            width: 100% !important;
-            max-width: 100% !important;
-            height: auto !important;
-            overflow-x: auto !important;
-        }
+            /* 2. Arreglar la Ficha Policial (Hacer que la foto y datos bajen en columna) */
+            .ficha-container {
+                flex-direction: column !important;
+            }
+            .ficha-datos {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .ficha-dato-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }
+            .ficha-label {
+                width: 100% !important;
+                margin-bottom: 5px !important;
+            }
+            .ficha-foto {
+                width: 100% !important;
+            }
 
-        /* 3. Darle un respiro a las tarjetas blancas (bordes) */
-        .tarjeta, .modulo, .contenedor-principal {
-            padding: 15px !important;
-            margin: 10px 5px !important;
-            width: auto !important;
-        }
+            /* 3. Mapa y Gráficos sin desbordarse */
+            #map-ecuador {
+                width: 100% !important;
+                height: 300px !important; 
+                overflow: hidden !important;
+            }
+            .canvas-container {
+                width: 100% !important;
+                height: auto !important;
+            }
 
-        /* 4. Tablas con scroll horizontal elegante para celulares */
-        .contenedor-tabla, .tabla-responsive, table {
-            overflow-x: auto !important;
-            display: block !important;
-            width: 100% !important;
-            white-space: nowrap !important;
-        }
+            /* 4. Tablas con scroll horizontal elegante para celulares */
+            .std-table {
+                display: block !important;
+                width: 100% !important;
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+            }
 
-        /* 5. Ajustar botones para que sean fáciles de tocar */
-        button {
-            width: 100% !important;
-            margin-bottom: 10px !important;
-            padding: 12px !important;
+            /* 5. Ajustar márgenes de los módulos y cabecera */
+            .module {
+                padding: 15px !important;
+            }
+            .main-content {
+                padding: 15px 10px !important;
+            }
+            header {
+                flex-direction: column !important;
+                padding: 15px !important;
+                gap: 10px !important;
+            }
+            
+            /* 6. Botones responsivos del menú principal */
+            .nav-container {
+                flex-direction: column !important;
+            }
+            .nav-btn {
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            /* 7. Arreglar los cuadritos del Dashboard (Las tarjetas de totales) */
+            div[style*="grid-template-columns"] {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+            }
         }
-    }
     </style>
 </head>
 <body>
