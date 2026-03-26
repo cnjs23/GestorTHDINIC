@@ -139,18 +139,19 @@
             .ficha-foto {
                 width: 100% !important;
             }
-
-            /* 3. Mapa y Gráficos sin desbordarse */
+/* 3. Evitar que el mapa se corte (Ajuste Proporcional) */
             #map-ecuador {
                 width: 100% !important;
-                height: 300px !important; 
-                overflow: hidden !important;
+                height: 250px !important; /* Altura más baja para que no se pierda el sur */
+                max-width: 100vw !important;
+                display: block !important;
+                margin: 0 auto !important;
             }
-            .canvas-container {
+            /* Hacer que el contenedor del mapa permita scroll si el mapa decide ser rebelde */
+            .dash-chart-card {
+                overflow-x: auto !important;
                 width: 100% !important;
-                height: auto !important;
             }
-
             /* 4. Tablas con scroll horizontal elegante para celulares */
             .std-table {
                 display: block !important;
