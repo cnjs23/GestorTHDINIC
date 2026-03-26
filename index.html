@@ -1254,13 +1254,86 @@
             let cont = document.getElementById('contenedor-formulario-edicion'); let btn = cont.querySelector('.btn-guardar'); btn.innerText = "ACTUALIZANDO..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "actualizar", hoja: hoja, fila: fila, datos: d, usuario_logueado: userLog }) }).then(res => res.json()).then(r => { if(r.status === "éxito") { alert("¡Registro actualizado!"); volverATablaUPD(); let btnFiltro = document.getElementById('btn-upd-exec'); if(btnFiltro && !btnFiltro.disabled) btnFiltro.click(); } else alert("Error: " + r.message); }).catch(e => alert("Error")).finally(() => { btn.innerText = "💾 GUARDAR CAMBIOS INDIVIDUALES"; btn.disabled = false; });
         }
-        
+
+	// --- INICIO CIRUGÍA LOTE AVANZADO ---
+        function toggleFechasLote() {
+            let tipo = document.getElementById('lote-tipo-desde').value;
+            let fDesde = document.getElementById('lote-fecha-desde'); let dDesde = document.getElementById('lote-dias-desde');
+            let fHasta = document.getElementById('lote-fecha-hasta'); let txt = document.getElementById('lote-hasta-ninguna');
+            let req = document.getElementById('lote-nuevos-requerimientos');
+            if (tipo === 'NINGUNA') {
+                fDesde.classList.add('hidden'); fDesde.value = ''; dDesde.classList.add('hidden'); dDesde.value = '';
+                fHasta.classList.add('hidden'); fHasta.value = ''; txt.classList.remove('hidden');
+                if(req) { req.value = 'NINGUNA'; req.disabled = true; req.classList.add('readonly-field'); }
+            } else {
+                fDesde.classList.remove('hidden'); dDesde.classList.remove('hidden'); fHasta.classList.remove('hidden'); txt.classList.add('hidden');
+                if(req) { if(req.value === 'NINGUNA') req.value = ''; req.disabled = false; req.classList.remove('readonly-field'); }
+            }
+            evaluarVigenciaLote();
+        }
+
+        function calcularHastaLote() {
+            let fD = document.getElementById('lote-fecha-desde').value; let d = parseInt(document.getElementById('lote-dias-desde').value); let fH = document.getElementById('lote-fecha-hasta');
+            if (fD && !isNaN(d) && d > 0) {
+                let obj = new Date(fD); obj.setDate(obj.getDate() + (d - 1));
+                fH.value = obj.toISOString().split('T')[0]; fH.setAttribute('readonly', true); fH.classList.add('readonly-field');
+            } else { fH.removeAttribute('readonly'); fH.classList.remove('readonly-field'); }
+            evaluarVigenciaLote();
+        }
+
+        function evaluarVigenciaLote() {
+            let inputHasta = document.getElementById('lote-fecha-hasta'); let inputEstado = document.getElementById('lote-nuevos-requerimientos');
+            if(inputHasta && inputHasta.value && inputEstado) {
+                const fechaLimite = new Date(inputHasta.value + "T00:00:00"); const fechaActual = new Date(); fechaActual.setHours(0,0,0,0);
+                if(fechaLimite >= fechaActual) { inputEstado.value = "VIGENTE"; inputEstado.style.backgroundColor = "#d4edda"; inputEstado.style.color = "#155724"; } 
+                else { inputEstado.value = "FENECIDO"; inputEstado.style.backgroundColor = "#f8d7da"; inputEstado.style.color = "#721c24"; }
+            } else if (inputEstado) { inputEstado.style.backgroundColor = ""; inputEstado.style.color = ""; }
+        }
+        // --- FIN CIRUGÍA LOTE AVANZADO ---
+	
         function abrirModalLote() { let checkboxes = document.querySelectorAll('.checkbox-lote:checked'); if(checkboxes.length === 0) return alert("Primero selecciona al menos a un servidor usando las casillas en la tabla de resultados."); document.getElementById('txt-lote-num').innerText = checkboxes.length; document.getElementById('modal-lote').classList.remove('hidden'); }
         function cerrarModalLote() { document.getElementById('modal-lote').classList.add('hidden'); document.getElementById('lote-campo-select').value = ""; document.getElementById('lote-input-container').innerHTML = ""; }
-        function mostrarInputLote(campoIndex) {
-            let cont = document.getElementById('lote-input-container'); if (campoIndex === "") { cont.innerHTML = ""; return; } let html = `<label style="color:var(--primary-color); font-weight:bold;">Ingresa el nuevo valor que se aplicará a todos los seleccionados:</label><br><br>`;
+        
+	function mostrarInputLote(campoIndex) {
+            let cont = document.getElementById('lote-input-container'); if (campoIndex === "") { cont.innerHTML = ""; return; } 
+            let html = `<label style="color:var(--primary-color); font-weight:bold;">Ingresa los nuevos valores que se aplicarán a todos los seleccionados:</label><br><br>`;
             
-            if (campoIndex === "18" || campoIndex === "19") { 
+            // CIRUGÍA: SI ES NOVEDAD PRINCIPAL, PINTAMOS EL BLOQUE COMPLETO
+            if (campoIndex === "18") { 
+                html += `<div style="background:#f4f7fb; padding:15px; border-radius:8px; border:1px solid #c5d3e8;">
+                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">NOVEDAD PRINCIPAL</label>
+                            <select id="lote-val-final" style="width:100%; padding:8px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="NINGUNA">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
+                let extra = localStorage.getItem('novedades_admin');
+                if(extra) { let arr = extra.split('|').filter(x => x.trim() !== ""); arr.forEach(nov => { html += `<option value="${nov}">⭐ ${nov}</option>`; }); }
+                html += `</select>
+                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">DETALLE</label>
+                            <input type="text" id="lote-detalle" style="width:100%; padding:8px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px; text-transform:uppercase;">
+                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">DOCUMENTO / QUIEN SUSCRIBE</label>
+                            <input type="text" id="lote-documento" style="width:100%; padding:8px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px; text-transform:uppercase;">
+                            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                                <div style="flex:1;">
+                                    <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">DESDE</label>
+                                    <select id="lote-tipo-desde" onchange="toggleFechasLote()" style="width:100%; padding:8px; margin-bottom:5px; border: 1px solid #ccc; border-radius: 4px;">
+                                        <option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option>
+                                    </select>
+                                    <div style="display:flex; gap:5px;">
+                                        <input type="date" id="lote-fecha-desde" class="hidden" onchange="calcularHastaLote()" style="width:50%; padding:8px; border: 1px solid #ccc; border-radius: 4px;">
+                                        <input type="number" id="lote-dias-desde" class="hidden" placeholder="Nº días" oninput="calcularHastaLote()" min="1" style="width:50%; padding:8px; border: 1px solid #ccc; border-radius: 4px;">
+                                    </div>
+                                </div>
+                                <div style="flex:1;">
+                                    <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">HASTA</label>
+                                    <div id="lote-hasta-ninguna" style="font-weight: bold; color: #7f8c8d; padding: 8px 0;">NINGUNA</div>
+                                    <input type="date" id="lote-fecha-hasta" class="hidden" onchange="evaluarVigenciaLote()" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;">
+                                </div>
+                            </div>
+                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">ESTADOS DE TRASLADOS</label>
+                            <select id="lote-nuevos-requerimientos" class="readonly-field" disabled style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option>
+                            </select>
+                        </div>`;
+            } else if (campoIndex === "19") { 
                 html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="NINGUNA">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
                 let extra = localStorage.getItem('novedades_admin');
                 if(extra) { let arr = extra.split('|').filter(x => x.trim() !== ""); arr.forEach(nov => { html += `<option value="${nov}">⭐ ${nov}</option>`; }); }
@@ -1269,12 +1342,23 @@
             cont.innerHTML = html;
         }
 
-        async function ejecutarLoteDefinitivo() {
+       async function ejecutarLoteDefinitivo() {
             let campo = document.getElementById('lote-campo-select').value; if(!campo) return alert("Elige un campo a actualizar.");
             let valorInput = document.getElementById('lote-val-final'); if(!valorInput || valorInput.value === "") return alert("Ingresa el nuevo valor.");
             let valor = valorInput.type === "date" ? valorInput.value : valorInput.value.toUpperCase();
-            
             if (valor === "NINGUNA" || valor === "") valor = " "; 
+
+            // CIRUGÍA: CAPTURAR LOS 6 CAMPOS SI ES LA NOVEDAD PRINCIPAL
+            let valDetalle = " ", valDoc = " ", valFDesde = " ", valFHasta = " ", valReq = " ";
+            if(campo === "18") {
+                valDetalle = document.getElementById('lote-detalle').value.toUpperCase() || " ";
+                valDoc = document.getElementById('lote-documento').value.toUpperCase() || " ";
+                valFDesde = document.getElementById('lote-fecha-desde').value || " ";
+                if(document.getElementById('lote-tipo-desde').value === "NINGUNA") valFDesde = " ";
+                valFHasta = document.getElementById('lote-fecha-hasta').value || " ";
+                valReq = document.getElementById('lote-nuevos-requerimientos').value || "NINGUNA";
+                if(valReq === "NINGUNA" || valReq === "") valReq = " ";
+            }
 
             let checkboxes = document.querySelectorAll('.checkbox-lote:checked');
             if(!confirm(`Se actualizará el campo para ${checkboxes.length} servidores.\n¿Estás seguro de proceder?`)) return;
@@ -1289,6 +1373,15 @@
                 let hr = reg.hojaOrigen; 
                 let d = reg.datosEncontrados; 
                 d[parseInt(campo)] = valor;
+                
+                // INYECTAMOS TODOS LOS DATOS EN LA MATRIZ
+                if(campo === "18") {
+                    d[20] = valDetalle;
+                    d[21] = valDoc;
+                    d[22] = valFDesde;
+                    d[23] = valFHasta;
+                    d[24] = valReq;
+                }
                 paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
             }
             
