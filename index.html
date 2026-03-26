@@ -109,6 +109,47 @@
         .tab-btn-active { background: var(--primary-color); color: white; border: 1px solid var(--primary-color);}
         .tab-btn-inactive { background: white; color: #7f8c8d; border: 1px solid #ced4da; }
         .tab-btn-inactive:hover { background: #f8f9fa; }
+		/* =========================================
+       📱 MAGIA RESPONSIVA PARA CELULARES
+       ========================================= */
+    @media screen and (max-width: 768px) {
+        /* 1. Obligar a los formularios a usar 1 sola columna hacia abajo */
+        .grid-formulario, .formulario-grid, .fila-campos, .dashboard-grid, .contenedor-tarjetas {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+        }
+
+        /* 2. Evitar que el mapa y los gráficos rompan la pantalla */
+        .contenedor-mapa, .grafico-container, #mapa-ecuador, canvas {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            overflow-x: auto !important;
+        }
+
+        /* 3. Darle un respiro a las tarjetas blancas (bordes) */
+        .tarjeta, .modulo, .contenedor-principal {
+            padding: 15px !important;
+            margin: 10px 5px !important;
+            width: auto !important;
+        }
+
+        /* 4. Tablas con scroll horizontal elegante para celulares */
+        .contenedor-tabla, .tabla-responsive, table {
+            overflow-x: auto !important;
+            display: block !important;
+            width: 100% !important;
+            white-space: nowrap !important;
+        }
+
+        /* 5. Ajustar botones para que sean fáciles de tocar */
+        button {
+            width: 100% !important;
+            margin-bottom: 10px !important;
+            padding: 12px !important;
+        }
+    }
     </style>
 </head>
 <body>
