@@ -173,14 +173,9 @@
                 gap: 10px !important;
             }
             
-            /* 6. Botones responsivos del menú principal */
-            .nav-container {
-                flex-direction: column !important;
-            }
-            .nav-btn {
-                width: 100% !important;
-                text-align: center !important;
-            }
+           /* 6. Botones responsivos del menú principal (Estilo App Nativa) */
+            .nav-container { flex-direction: row !important; flex-wrap: nowrap !important; overflow-x: auto !important; justify-content: flex-start !important; padding: 0px !important; position: relative !important; top: auto !important; -webkit-overflow-scrolling: touch; border-bottom: 2px solid #e2e8f0; background: #fff;}
+            .nav-btn { width: auto !important; padding: 12px 10px !important; font-size: 11px !important; flex: 0 0 auto !important; border-bottom: 3px solid transparent !important; white-space: nowrap !important; }
             
             /* 7. Arreglar los cuadritos del Dashboard (Las tarjetas de totales) */
             div[style*="grid-template-columns"] {
@@ -868,15 +863,19 @@
             if (rol === "ADMIN") {
                 document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden')); document.getElementById('nav-btn-admin').classList.remove('hidden'); document.getElementById('card-admin').classList.remove('hidden');
                 loadUsersTable(); cargarAuditoria(); cargarConfigWP(); renderNovedadesAdmin(); renderConfigOrganicoAdmin(); 
-            } else if (rol === "ANALISTA DINIC" || rol === "ASISTENTE DINIC" || rol === "ANALISTA UNIDAD" || rol === "ANALISTA AGENCIA") {
+            } else if (rol === "ANALISTA DINIC" || rol === "ASISTENTE DINIC" || rol === "ANALISTA UNIDAD") {
                 document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden'));
+            } else if (rol === "ANALISTA AGENCIA") {
+                document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden'));
+                // 🔒 MAGIA: Ocultamos los botones y tarjetas específicos de "AGREGAR NUEVO"
+                document.querySelectorAll('.nav-btn')[3].classList.add('hidden'); 
+                document.querySelectorAll('.welcome-card')[2].classList.add('hidden');
             } else if (rol === "VISITANTE SENIOR" || rol === "VISITANTE UNIDAD") {
             } else if (rol === "VISITANTE DINIC" || rol === "VISITANTE JUNIOR") {
                 document.querySelectorAll('.nav-btn').forEach((el, i) => { if(i !== 0 && i !== 1) el.style.display = 'none'; });
                 document.querySelectorAll('.welcome-card').forEach((el, i) => { if(i !== 0) el.style.display = 'none'; });
                 if(navDash) navDash.classList.add('hidden'); if(cardDash) cardDash.style.display = "none"; if(tabAlertas) tabAlertas.style.display = "none";
             }
-        }
 
         async function hacerLogin(btn) {
             let user = document.getElementById('login-user').value.trim(), pass = document.getElementById('login-pass').value.trim();
@@ -942,12 +941,17 @@
 
         window.alertasSistemaTemporales = []; window.mensajesBackendCache = []; window.allMessagesCache = []; window.currentMsgsTab = 'alertas'; 
 
-        function iniciarSecuenciaAlertasYMensajes() {
+       function iniciarSecuenciaAlertasYMensajes() {
             let uniPermitida = localStorage.getItem('unidad') || "TODAS";
+            let subzPermitida = localStorage.getItem('subzona') || "";
             let userLog = localStorage.getItem('usuario_ci'); let rol = localStorage.getItem('rol') || "";
             if(!userLog) return;
             if(rol === "VISITANTE DINIC" || rol === "VISITANTE JUNIOR") { verificarMensajesAlInicio(); return; }
-            let f = { cedula:"", nombres:"", unidad:"", grado:"", zona:"", subzona:"", estado_civil:"", novedad:"", novedad1:"", ubicacion:"", gestion:"", sexo:"", vacaciones:"", alta_demanda:"" };
+            
+            // 🛡️ Filtramos silenciosamente las alertas usando la subzona del usuario
+            let filtroSubzona = (rol === "ANALISTA AGENCIA") ? subzPermitida : "";
+            let f = { cedula:"", nombres:"", unidad:"", grado:"", zona:"", subzona: filtroSubzona, estado_civil:"", novedad:"", novedad1:"", ubicacion:"", gestion:"", sexo:"", vacaciones:"", alta_demanda:"" };
+            
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "filtrarBI", filtros: f, unidad: uniPermitida, usuario_logueado: userLog, silencioso: true }) })
             .then(res => res.json()).then(r => { if(r.status === "éxito") calcularAlertasSilenciosas(r.resultados, true); }).catch(e => console.log("Silent error")).finally(() => { verificarMensajesAlInicio(); });
         }
