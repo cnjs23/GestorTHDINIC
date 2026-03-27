@@ -197,7 +197,7 @@
         <div style="background:white; padding:40px; border-radius:12px; width:300px; text-align:center; box-shadow:0 15px 35px rgba(0,0,0,0.3);">
             <h2 style="color:var(--primary-color); margin-top:0;">ACCESO RESTRINGIDO</h2>
             <p style="color:#666; font-size:14px; margin-bottom:25px;">GESTOR DE TALENTO HUMANO DINIC</p>
-            <input type="text" id="login-user" placeholder="Usuario" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" autocomplete="off">
+            <input type="text" id="login-user" placeholder="Usuario" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" autocomplete="off" oninput="limpiarCeros(this)">
             <input type="password" id="login-pass" placeholder="Contraseña" style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
             <button onclick="hacerLogin(this)" style="width:100%; padding:14px; background:var(--accent-color); color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer; transition:0.3s;">INGRESAR</button>
             <p id="login-error" style="color:#e74c3c; font-size:13px; margin-top:15px; display:none; font-weight:bold;"></p>
