@@ -619,6 +619,7 @@
                                 <option value="VISITANTE UNIDAD">VISITANTE UNIDAD</option>
                                 <option value="VISITANTE DINIC">VISITANTE DINIC (Consulta Todo)</option>
                                 <option value="VISITANTE JUNIOR">VISITANTE JUNIOR (Consulta su Unidad)</option>
+								<option value="ANALISTA AGENCIA">ANALISTA AGENCIA</option>
                             </select>
                         </div>
                         <button type="button" class="btn-guardar" style="margin-top:0; grid-column:auto;" onclick="crearNuevoUsuario()">CREAR</button>
@@ -646,6 +647,7 @@
                                     <option value="VISITANTE UNIDAD">VISITANTES UNIDAD</option>
                                     <option value="VISITANTE DINIC">VISITANTES DINIC</option>
                                     <option value="VISITANTE JUNIOR">VISITANTES JUNIOR</option>
+									<option value="ANALISTA AGENCIA">ANALISTA AGENCIA</option>
                                 </select>
                                 <input type="text" id="msg-ci-especifico" placeholder="O ingresa Cédula específica..." style="margin-top:10px;">
                             </div>
@@ -797,11 +799,23 @@
         function limpiarCeros(inputElement) { let valor = inputElement.value.trim(); if (valor.length > 1 && valor.startsWith("0")) { inputElement.value = valor.substring(1); } }
         
         function aplicarPermisosUnidad() {
-            let rol = localStorage.getItem('rol'), unidad = localStorage.getItem('unidad');
+            let rol = localStorage.getItem('rol'), unidad = localStorage.getItem('unidad'), subzona = localStorage.getItem('subzona');
             let dirSelect = document.getElementById('dir-unidad'); let biSelect = document.getElementById('bi-unidad');
             let updSelect = document.getElementById('upd-unidad'); let dashSelect = document.getElementById('dash-unidad');
+            let subzonaInput = document.getElementById('subzona'); let biSubzona = document.getElementById('bi-subzona');
+            let updSubzona = document.getElementById('upd-subzona'); let dashSubzona = document.getElementById('dash-subzona');
             
-            if (rol !== "ADMIN" && rol !== "VISITANTE SENIOR" && rol !== "VISITANTE DINIC" && rol !== "ANALISTA DINIC" && unidad && unidad !== "TODAS" && unidad !== "DESCONOCIDA") {
+            if (rol === "ANALISTA AGENCIA" && unidad && unidad !== "TODAS" && unidad !== "DESCONOCIDA") {
+                if(dirSelect){ dirSelect.value = unidad; dirSelect.setAttribute("disabled", "true"); dirSelect.classList.add("readonly-field"); }
+                if(biSelect){ biSelect.innerHTML = `<option value="${unidad}">${unidad} (Autorizada)</option>`; biSelect.setAttribute("disabled", "true"); }
+                if(updSelect){ updSelect.innerHTML = `<option value="${unidad}">${unidad} (Autorizada)</option>`; updSelect.setAttribute("disabled", "true"); }
+                if(dashSelect){ dashSelect.innerHTML = `<option value="${unidad}">${unidad} (Autorizada)</option>`; dashSelect.setAttribute("disabled", "true"); }
+                
+                if(subzonaInput && subzona){ subzonaInput.value = subzona; subzonaInput.setAttribute("readonly", "true"); subzonaInput.classList.add("readonly-field"); }
+                if(biSubzona && subzona){ biSubzona.value = subzona; biSubzona.setAttribute("readonly", "true"); biSubzona.classList.add("readonly-field"); }
+                if(updSubzona && subzona){ updSubzona.value = subzona; updSubzona.setAttribute("readonly", "true"); updSubzona.classList.add("readonly-field"); }
+                if(dashSubzona && subzona){ dashSubzona.value = subzona; dashSubzona.setAttribute("readonly", "true"); dashSubzona.classList.add("readonly-field"); }
+            } else if (rol !== "ADMIN" && rol !== "VISITANTE SENIOR" && rol !== "VISITANTE DINIC" && rol !== "ANALISTA DINIC" && unidad && unidad !== "TODAS" && unidad !== "DESCONOCIDA") {
                 if(dirSelect){ dirSelect.value = unidad; dirSelect.setAttribute("disabled", "true"); dirSelect.classList.add("readonly-field"); }
                 if(biSelect){ biSelect.innerHTML = `<option value="${unidad}">${unidad} (Autorizada)</option>`; biSelect.setAttribute("disabled", "true"); }
                 if(updSelect){ updSelect.innerHTML = `<option value="${unidad}">${unidad} (Autorizada)</option>`; updSelect.setAttribute("disabled", "true"); }
@@ -854,7 +868,7 @@
             if (rol === "ADMIN") {
                 document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden')); document.getElementById('nav-btn-admin').classList.remove('hidden'); document.getElementById('card-admin').classList.remove('hidden');
                 loadUsersTable(); cargarAuditoria(); cargarConfigWP(); renderNovedadesAdmin(); renderConfigOrganicoAdmin(); 
-            } else if (rol === "ANALISTA DINIC" || rol === "ASISTENTE DINIC" || rol === "ANALISTA UNIDAD") {
+            } else if (rol === "ANALISTA DINIC" || rol === "ASISTENTE DINIC" || rol === "ANALISTA UNIDAD" || rol === "ANALISTA AGENCIA") {
                 document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden'));
             } else if (rol === "VISITANTE SENIOR" || rol === "VISITANTE UNIDAD") {
             } else if (rol === "VISITANTE DINIC" || rol === "VISITANTE JUNIOR") {
@@ -871,7 +885,7 @@
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "login", usuario: user, clave: hashedPass}) })
             .then(res => res.json()).then(res => {
                 if(res.status === "éxito") {
-                    localStorage.setItem('usuario_ci', user); localStorage.setItem('rol', res.rol); localStorage.setItem('unidad', res.unidad);
+                    localStorage.setItem('usuario_ci', user); localStorage.setItem('rol', res.rol); localStorage.setItem('unidad', res.unidad); localStorage.setItem('subzona', res.subzona || "");
                     localStorage.setItem('nombre', res.nombre); localStorage.setItem('lastActivityTime', Date.now()); 
                     localStorage.setItem('novedades_admin', res.novedades_admin || ""); localStorage.setItem('config_organico', JSON.stringify(res.config_organico || {})); 
                     if(res.memorias_globales && res.memorias_globales !== "{}") { try { let mems = JSON.parse(res.memorias_globales); for(let key in mems) { localStorage.setItem('memoria_' + key, JSON.stringify(mems[key])); } } catch(e) {} }
@@ -1237,7 +1251,17 @@
             document.getElementById('upd-resultados-tabla').classList.add('hidden'); msj.innerHTML = `✅ Editando a: <span style="color:var(--accent-color)">${d[4]}</span>`;
             let formHtml = document.getElementById('form-nuevo-registro').innerHTML; formHtml = formHtml.replace(/id="/g, 'id="ed-'); 
             cont.innerHTML = `<button onclick="volverATablaUPD()" style="margin-bottom:15px; padding:8px 15px; cursor:pointer; border:1px solid #ccc; border-radius:4px; background:#f4f4f4; font-weight:bold;">← Cancelar y Volver</button><h3 style="margin-top: 0; color: var(--danger-color);">📝 Editando Registro</h3><form id="form-edicion-registro" autocomplete="off">${formHtml}</form>`;
-            let dirClon = document.getElementById('ed-dir-unidad'); if (localStorage.getItem('rol') !== "ADMIN" && dirClon) { dirClon.setAttribute("disabled", "true"); dirClon.classList.add("readonly-field"); }
+            
+            let rActivo = localStorage.getItem('rol');
+            let dirClon = document.getElementById('ed-dir-unidad'); let subzonaClon = document.getElementById('ed-subzona');
+            
+            if (rActivo === "ANALISTA AGENCIA") {
+                if (dirClon) { dirClon.setAttribute("disabled", "true"); dirClon.classList.add("readonly-field"); }
+                if (subzonaClon) { subzonaClon.setAttribute("readonly", "true"); subzonaClon.classList.add("readonly-field"); }
+            } else if (rActivo !== "ADMIN" && rActivo !== "ANALISTA DINIC" && dirClon) { 
+                dirClon.setAttribute("disabled", "true"); dirClon.classList.add("readonly-field"); 
+            }
+            
             let btnClon = cont.querySelector('.btn-guardar'); if(btnClon) { btnClon.innerText = "💾 GUARDAR CAMBIOS INDIVIDUALES"; btnClon.style.backgroundColor = "var(--danger-color)"; btnClon.setAttribute("onclick", `ejecutarActualizacionRegistro('${hr}', ${reg.filaReal})`); }
             const s = (id, v) => { let el = document.getElementById('ed-'+id); if(el && v!==undefined) el.value = v; };
             s('dir-unidad', d[0]); s('cedula', d[2]); s('grado', d[3]); s('nombres', d[4]); s('zona', d[5]); s('subzona', d[6]); s('distrito', d[7]); s('circuito', d[8]); s('subcircuito', d[9]); s('jefatura', d[10]); s('subsistema', d[11]); s('pase-dnath', d[12]); s('cargo-designado', d[13]); s('provincia', d[14]); s('estado-civil', d[15]); s('correo', d[16]); s('telefono', d[17]); s('novedad', d[18]); s('novedad1', d[19]); s('detalle', d[20]); s('documento', d[21]); 
@@ -1496,7 +1520,7 @@
         function cargarAuditoria() { let tbody = document.getElementById('admin-auditoria-tbody'); tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Cargando historial...</td></tr>`; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "getAuditoria"}) }).then(res => res.json()).then(res => { if(res.status === "éxito") { tbody.innerHTML = ""; if(res.auditoria.length === 0) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No hay registros recientes.</td></tr>`; res.auditoria.forEach(a => { let colorAccion = "#2c3e50"; if(a.accion.includes("ELIMINAR")) colorAccion = "red"; if(a.accion.includes("ACTUALIZAR") || a.accion.includes("ADMIN")) colorAccion = "#f39c12"; if(a.accion.includes("NUEVO") || a.accion.includes("EXPORTAR")) colorAccion = "#27ae60"; tbody.innerHTML += `<tr><td style="font-size:11px; color:#7f8c8d;">${a.fecha}</td><td style="font-weight:bold;">${a.usuario}</td><td style="color:${colorAccion}; font-weight:bold;">${a.accion}</td><td style="font-size:12px;">${a.detalle}</td></tr>`; }); } }); }
         async function crearNuevoUsuario() { let user = document.getElementById('admin-new-user').value.trim(), pass = document.getElementById('admin-new-pass').value.trim(), rol = document.getElementById('admin-new-rol').value; if(!user || !pass) return alert("Complete los campos"); let hashedPass = await hashearClave(pass); let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "gestionarUsuario", datos: {usuario: user, clave_hasheada: hashedPass, rol: rol}, usuario_logueado: userLog }) }).then(res => res.json()).then(res => { alert(res.message); loadUsersTable(); cargarAuditoria(); }); }
         async function cambiarPasswordUsuario(usuario) { let nueva = prompt("Nueva contraseña para " + usuario + ":"); if (!nueva) return; let hashedNueva = await hashearClave(nueva); let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "gestionarUsuario", datos: {subAccion: "cambiarContrasena", usuario: usuario, clave_hasheada: hashedNueva }, usuario_logueado: userLog }) }).then(res => res.json()).then(res => { alert(res.message); loadUsersTable(); cargarAuditoria(); }); }
-        function cambiarRolUsuario(usuario, rolActual) { let nuevo = prompt(`¿Cambiar rol de ${usuario}?\nOpciones exactas:\nADMIN\nANALISTA DINIC\nASISTENTE DINIC\nANALISTA UNIDAD\nVISITANTE SENIOR\nVISITANTE UNIDAD\nVISITANTE DINIC\nVISITANTE JUNIOR`, rolActual); if(!nuevo || nuevo === rolActual) return; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "gestionarUsuario", datos: {subAccion: "cambiarRol", usuario: usuario, nuevoRol: nuevo.toUpperCase()}, usuario_logueado: userLog }) }).then(res => res.json()).then(res => { alert(res.message); loadUsersTable(); cargarAuditoria(); }); }
+        function cambiarRolUsuario(usuario, rolActual) { let nuevo = prompt(`¿Cambiar rol de ${usuario}?\nOpciones exactas:\nADMIN\nANALISTA DINIC\nASISTENTE DINIC\nANALISTA UNIDAD\nANALISTA AGENCIA\nVISITANTE SENIOR\nVISITANTE UNIDAD\nVISITANTE DINIC\nVISITANTE JUNIOR`, rolActual); if(!nuevo || nuevo === rolActual) return; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "gestionarUsuario", datos: {subAccion: "cambiarRol", usuario: usuario, nuevoRol: nuevo.toUpperCase()}, usuario_logueado: userLog }) }).then(res => res.json()).then(res => { alert(res.message); loadUsersTable(); cargarAuditoria(); }); }
         function toggleUsuarioStatus(usuario, subAccion) { if(!confirm("¿Continuar?")) return; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "gestionarUsuario", datos: {subAccion: subAccion, usuario: usuario}, usuario_logueado: userLog }) }).then(res => res.json()).then(res => { alert(res.message); loadUsersTable(); cargarAuditoria(); }); }
 
         // ==========================================
