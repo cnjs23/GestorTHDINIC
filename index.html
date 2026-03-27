@@ -876,7 +876,7 @@
                 document.querySelectorAll('.welcome-card').forEach((el, i) => { if(i !== 0) el.style.display = 'none'; });
                 if(navDash) navDash.classList.add('hidden'); if(cardDash) cardDash.style.display = "none"; if(tabAlertas) tabAlertas.style.display = "none";
             }
-
+		}
         async function hacerLogin(btn) {
             let user = document.getElementById('login-user').value.trim(), pass = document.getElementById('login-pass').value.trim();
             if(!user || !pass) return alert("Ingrese sus datos"); btn.innerText = "VERIFICANDO..."; btn.style.backgroundColor = "#95a5a6";
