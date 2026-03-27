@@ -914,7 +914,7 @@
         function quitarDeLista(idx) { let lista = JSON.parse(localStorage.getItem('lista_exportacion') || '[]'); lista.splice(idx, 1); localStorage.setItem('lista_exportacion', JSON.stringify(lista)); actualizarBadgeLista(); abrirModalLista(); }
         function vaciarLista() { if(!confirm("¿Estás seguro de vaciar toda tu lista de exportación?")) return; localStorage.setItem('lista_exportacion', '[]'); actualizarBadgeLista(); abrirModalLista(); }
         function marcarDesmarcarTodosBI(estado) { document.querySelectorAll('.checkbox-lote-bi').forEach(cb => cb.checked = estado); }
-	function marcarDesmarcarTodos(estado) { document.querySelectorAll('.checkbox-lote').forEach(cb => cb.checked = estado); }
+		function marcarDesmarcarTodos(estado) { document.querySelectorAll('.checkbox-lote').forEach(cb => cb.checked = estado); }
         function descargarExcelLista() {
             let lista = JSON.parse(localStorage.getItem('lista_exportacion') || '[]'); if(lista.length === 0) return alert("No hay datos para exportar.");
             let dataExcel = []; let cabeceras = [ "DIRECCIÓN/UNIDAD", "VACÍO", "CÉDULA", "GRADO", "NOMBRES", "ZONA", "SUBZONA", "DISTRITO", "CIRCUITO", "SUBCIRCUITO", "JEFATURA", "SUBSISTEMA", "PASE DNATH", "CARGO DESIGNADO", "PROVINCIA VIVE", "ESTADO CIVIL", "CORREO", "TELÉFONO", "NOVEDAD", "NOVEDAD 1", "DETALLE", "DOCUMENTO", "DESDE", "HASTA", "NUEVOS REQUERIMIENTOS", "UBICACIÓN", "GRUPOS TRABAJO", "FIN SEMANA", "NIVEL GESTIÓN" ]; dataExcel.push(cabeceras);
