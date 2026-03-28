@@ -563,12 +563,21 @@
                                     <option value="UNDECOF">UNDECOF</option>
                                     <option value="UCAP">UCAP</option>
                                 </select>
+                           <div class="form-group" style="margin-bottom:0;">
+                                <label>Forzar envío a:</label>
+                                <select id="wp-force-unit" style="padding:10px;">
+                                    <option value="TODAS">TODAS LAS UNIDADES AL MISMO TIEMPO 🚀</option>
+                                    <option value="DINIC">DINIC</option>
+                                    <option value="UDAR">UDAR</option>
+                                    <option value="UNDECOF">UNDECOF</option>
+                                    <option value="UCAP">UCAP</option>
+                                </select>
                             </div>
                             <div class="form-group" style="margin-bottom:0;">
                                 <label>O Cédula Específica:</label>
                                 <input type="text" id="wp-force-cedula" placeholder="Dejar vacío para todos" style="padding:10px;" oninput="limpiarCeros(this)">
                             </div>
-                            <button type="button" class="btn-guardar" style="margin-top:0; background-color:#3498db; padding:10px; width:auto;" onclick="forzarEnvioWP()" id="btn-force-wp">🚀 Enviar a Telegram Ahora</button>
+                            <button type="button" class="btn-guardar" style="margin-top:0; background-color:#3498db; padding:10px; width:auto;" onclick="forzarEnvioWPNuclear()" id="btn-force-wp">🚀 Enviar a Telegram</button>
                         </div>
                     </div>
                 </div>
@@ -726,7 +735,7 @@
 
     <footer><strong>GESTOR DE TALENTO HUMANO DINIC</strong> | Soporte Técnico y Desarrollo<br>👤 John Stalin Carrillo Narvaez | ✉️ cnjstalin@gmail.com</footer>
 <script>
-        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzQWFUrKFhDprQqtDzu2TkwX1wap14h24DVm63WgGjL55w0hnTEktV_uIOVlUIees5U/exec";
+        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxQUaLvGBDxtzDlz89yqyjBSWysuV90CKhuNvDEoJhQ8PcGHd5MMGhFvFRat8H0KfQW/exec";
         
         Chart.register(ChartDataLabels);
         google.charts.load('current', { 'packages':['geochart'] });
@@ -957,11 +966,11 @@
         }
 
         function calcularAlertasSilenciosas(datosMatriz, isGlobalScan = false) {
-            let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active') || '{}');
-            let eliminadasSys = JSON.parse(localStorage.getItem('sys_alerts_deleted') || '[]');
+            let ciLog = localStorage.getItem('usuario_ci') || 'default';
+            let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active_' + ciLog) || '{}');
+            let eliminadasSys = JSON.parse(localStorage.getItem('sys_alerts_deleted_' + ciLog) || '[]');
             const hoy = new Date(); hoy.setHours(0,0,0,0);
             let idsValidos = new Set();
-
             for (let i = 0; i < datosMatriz.length; i++) {
                 let d = datosMatriz[i].datosEncontrados, filaReal = datosMatriz[i].filaReal, hojaOrigen = datosMatriz[i].hojaOrigen;
                 let baseId = 'sys-' + hojaOrigen + '-' + filaReal; 
@@ -969,7 +978,8 @@
                 let debeAlertar = false; let diasRestantes = 0;
 
                 if(strD && strH && strD.includes("-") && strH.includes("-")) {
-                    let fD = new Date(strD + "T00:00:00"); let fH = new Date(strH + "T00:00:00");
+                    let fD = new Date(strD + "T00:00:00");
+                    let fH = new Date(strH + "T00:00:00");
                     if(!isNaN(fD) && !isNaN(fH)) {
                         let dTot = Math.round((fH.getTime() - fD.getTime()) / 86400000) + 1;
                         diasRestantes = Math.round((fH.getTime() - hoy.getTime()) / 86400000);
@@ -979,7 +989,7 @@
                     }
                 }
                 if(debeAlertar) {
-                    idsValidos.add(baseId); 
+                    idsValidos.add(baseId);
                     if(!eliminadasSys.includes(baseId)) {
                         let eStr = diasRestantes < 0 ? "⚠️ *FENECIÓ*" : `⏳ VENCE EN *${diasRestantes} DÍA(S)*`;
                         if (diasRestantes === 0) eStr = "🚨 *VENCE HOY*";
@@ -990,7 +1000,7 @@
             }
 
             if(isGlobalScan) { for(let key in alertasActivas) { if(!idsValidos.has(key)) { delete alertasActivas[key]; } } }
-            localStorage.setItem('sys_alerts_active', JSON.stringify(alertasActivas));
+            localStorage.setItem('sys_alerts_active_' + ciLog, JSON.stringify(alertasActivas));
         }
 
         function verificarMensajesSilencioso() {
@@ -1078,51 +1088,62 @@
         }
 
         function marcarLeido(idFila, fR, isSys = false) {
-            let row = document.getElementById('msj-row-' + idFila); if(row) row.style.borderLeftColor = '#bdc3c7';
+            let row = document.getElementById('msj-row-' + idFila);
+            if(row) row.style.borderLeftColor = '#bdc3c7';
             let badge = document.getElementById('msj-badge-' + idFila); if(badge) badge.innerHTML = `<span style="color:#bdc3c7; font-size:11px; float:right;">✔️ Leído</span>`;
             let actions = document.getElementById('msj-actions-' + idFila); if(actions) { let btn = actions.querySelector('.btn-marcar-leido'); if(btn) btn.remove(); }
             
+            let ciLog = localStorage.getItem('usuario_ci') || 'default';
+            
             if(isSys) {
-                let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active') || '{}');
-                if(alertasActivas[idFila]) { alertasActivas[idFila].leido = true; localStorage.setItem('sys_alerts_active', JSON.stringify(alertasActivas)); }
+                let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active_' + ciLog) || '{}');
+                if(alertasActivas[idFila]) { alertasActivas[idFila].leido = true; localStorage.setItem('sys_alerts_active_' + ciLog, JSON.stringify(alertasActivas)); }
             } else {
-                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "marcarLeido", filaReal: fR, usuario_ci: localStorage.getItem('usuario_ci')}) });
+                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "marcarLeido", filaReal: fR, usuario_ci: ciLog}) });
             }
             
             let msgEnCache = window.allMessagesCache.find(m => m.id === idFila);
             if(msgEnCache) msgEnCache.leido = true;
             
             let mAct = window.allMessagesCache; 
-            let unreadCount = mAct.filter(m => !m.leido && m.tipo !== "ENVIADO").length; 
+            let unreadCount = mAct.filter(m => !m.leido && m.tipo !== "ENVIADO").length;
             let unreadAlertas = mAct.filter(m => m.isSys && !m.leido).length; 
             let unreadMensajes = mAct.filter(m => !m.isSys && !m.leido && m.tipo !== "ENVIADO").length;
-            
             document.getElementById('badge-msj').innerText = unreadCount;
             let badgeAlertas = document.getElementById('badge-tab-alertas'); badgeAlertas.innerText = unreadAlertas; badgeAlertas.style.display = unreadAlertas > 0 ? 'inline-block' : 'none';
             let badgeMensajes = document.getElementById('badge-tab-mensajes'); badgeMensajes.innerText = unreadMensajes; badgeMensajes.style.display = unreadMensajes > 0 ? 'inline-block' : 'none';
         }
 
         function eliminarMensaje(idFila, fR, isSys = false) {
-            if(!confirm("¿Estás seguro de que deseas eliminar este mensaje? Ya no será visible para ti.")) return;
+            let isAdmin = localStorage.getItem('rol') === 'ADMIN';
+            let ciLog = localStorage.getItem('usuario_ci') || 'default';
+            let mnsj = isAdmin && !isSys ? "¿Estás seguro de que deseas eliminar este mensaje? Como ADMIN, lo eliminarás globalmente para TODOS." : "¿Estás seguro de que deseas ocultar este mensaje? Ya no será visible para ti.";
+            if(!confirm(mnsj)) return;
+            
             let row = document.getElementById('msj-row-' + idFila);
             if(row) row.remove();
             
-            if(!isSys) {
-                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "eliminarMensaje", filaReal: fR, usuario_ci: localStorage.getItem('usuario_ci'), rol_logueado: localStorage.getItem('rol')}) })
+            if(isSys) {
+                let eliminadasSys = JSON.parse(localStorage.getItem('sys_alerts_deleted_' + ciLog) || '[]');
+                if(!eliminadasSys.includes(idFila)) eliminadasSys.push(idFila);
+                localStorage.setItem('sys_alerts_deleted_' + ciLog, JSON.stringify(eliminadasSys));
+                
+                let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active_' + ciLog) || '{}');
+                if(alertasActivas[idFila]) { delete alertasActivas[idFila]; localStorage.setItem('sys_alerts_active_' + ciLog, JSON.stringify(alertasActivas)); }
+            } else {
+                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "eliminarMensaje", filaReal: fR, usuario_ci: ciLog, rol_logueado: localStorage.getItem('rol')}) })
                 .then(() => cargarMisMensajes());
             }
             
             window.allMessagesCache = window.allMessagesCache.filter(m => m.id !== idFila);
             let mAct = window.allMessagesCache; 
-            let unreadCount = mAct.filter(m => !m.leido && m.tipo !== "ENVIADO").length; 
+            let unreadCount = mAct.filter(m => !m.leido && m.tipo !== "ENVIADO").length;
             let unreadAlertas = mAct.filter(m => m.isSys && !m.leido).length; 
             let unreadMensajes = mAct.filter(m => !m.isSys && !m.leido && m.tipo !== "ENVIADO").length;
-            
             document.getElementById('badge-msj').innerText = unreadCount;
             let badgeAlertas = document.getElementById('badge-tab-alertas'); badgeAlertas.innerText = unreadAlertas; badgeAlertas.style.display = unreadAlertas > 0 ? 'inline-block' : 'none';
             let badgeMensajes = document.getElementById('badge-tab-mensajes'); badgeMensajes.innerText = unreadMensajes; badgeMensajes.style.display = unreadMensajes > 0 ? 'inline-block' : 'none';
         }
-
         function abrirModalMensajes() {
             let mod = document.getElementById('modal-mensajes'); mod.classList.remove('hidden'); 
             let rol = localStorage.getItem('rol') || "";
@@ -1532,7 +1553,49 @@
         // ==========================================
         function cargarConfigWP() { fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "getConfigWP"}) }).then(r => r.json()).then(res => { if(res.status === "éxito") { document.getElementById('tg-global-chatid').value = res.config.phone_DINIC || ""; document.getElementById('tg-global-token').value = res.config.api_DINIC || ""; } }); }
         function guardarConfigWP() { let chat = document.getElementById('tg-global-chatid').value.trim(), tok = document.getElementById('tg-global-token').value.trim(); let conf = { phone_DINIC: chat, api_DINIC: tok, phone_UDAR: chat, api_UDAR: tok, phone_UNDECOF: chat, api_UNDECOF: tok, phone_UCAP: chat, api_UCAP: tok }; let btn = document.getElementById('btn-save-wp'); btn.innerText = "Guardando..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "guardarConfigWP", config: conf, usuario_logueado: userLog}) }).then(r => r.json()).then(res => { if(res.status === "éxito") { alert("✅ Configuración de Telegram guardada."); cargarAuditoria(); } else { alert("❌ Error al guardar."); } }).finally(() => { btn.innerText = "💾 Guardar API Keys"; btn.disabled = false; }); }
-        function forzarEnvioWP() { let unidadFiltro = document.getElementById('wp-force-unit').value, cedulaFiltro = document.getElementById('wp-force-cedula').value.trim(); let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active') || '{}'); let listaAEnviar = []; for (let key in alertasActivas) { let a = alertasActivas[key]; let p = a.baseId.split("-"); let unidadAlerta = p[1]; let msjTexto = a.texto; let pasaFiltro = true; if (unidadFiltro !== "TODAS" && unidadAlerta !== unidadFiltro) pasaFiltro = false; if (cedulaFiltro !== "" && msjTexto.indexOf(cedulaFiltro) === -1) pasaFiltro = false; if (pasaFiltro) listaAEnviar.push(a); } if(listaAEnviar.length === 0) return alert("No hay notificaciones en la bandeja que coincidan con esos filtros para enviar."); if(!confirm(`Se enviarán ${listaAEnviar.length} notificación(es) a Telegram. ¿Proceder?`)) return; let btn = document.getElementById('btn-force-wp'); btn.innerText = "Enviando..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "forzarEnvioWhatsAppFrontend", alertas: listaAEnviar, usuario_logueado: userLog }) }).then(r => r.json()).then(res => { if(res.status === "éxito") { alert(`🚀 Listo. Se han enviado notificaciones a ${res.enviados} unidad(es) vía Telegram.`); cargarAuditoria(); } else { alert("❌ Error al enviar: " + res.message); } }).finally(() => { btn.innerText = "🚀 Enviar a Telegram Ahora"; btn.disabled = false; }); }
+		function forzarEnvioWPNuclear() { 
+            let unidadFiltro = document.getElementById('wp-force-unit').value, cedulaFiltro = document.getElementById('wp-force-cedula').value.trim();
+            let btn = document.getElementById('btn-force-wp');
+            
+            if (unidadFiltro === "TODAS") {
+                if(!confirm(`⚠️ ATENCIÓN SÚPER ADMIN\nSe va a forzar el envío masivo de notificaciones para TODAS las 4 unidades a Telegram simultáneamente.\n¿Estás seguro de proceder?`)) return;
+                btn.innerText = "🚀 Iniciando detonación..."; btn.disabled = true;
+                let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; 
+                
+                let unidArr = ["DINIC", "UDAR", "UNDECOF", "UCAP"];
+                unidArr.forEach((uni, index) => {
+                    setTimeout(() => {
+                        let f = { cedula:"", nombres:"", unidad:uni, grado:"", zona:"", subzona:"", estado_civil:"", novedad:"", novedad1:"", ubicacion:"", gestion:"", sexo:"", vacaciones:"", alta_demanda:"" };
+                        fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "filtrarBI", filtros: f, unidad: uni, usuario_logueado: userLog, silencioso: true }) })
+                        .then(res => res.json()).then(r => { if(r.status === "éxito") { 
+                            let tmpAlertasActivas = {};
+                            let hoy = new Date(); hoy.setHours(0,0,0,0);
+                            for (let i = 0; i < r.resultados.length; i++) {
+                                let d = r.resultados[i].datosEncontrados, filaReal = r.resultados[i].filaReal, hojaOrigen = r.resultados[i].hojaOrigen;
+                                let baseId = 'sys-' + hojaOrigen + '-' + filaReal; 
+                                let strD = formatearFechaParaHTML(d[22]); let strH = formatearFechaParaHTML(d[23]);
+                                let debeAlertar = false; let diasRestantes = 0;
+                                if(strD && strH && strD.includes("-") && strH.includes("-")) { let fH = new Date(strH + "T00:00:00"); let fD = new Date(strD + "T00:00:00"); if(!isNaN(fH)) { let dTot = Math.round((fH.getTime() - fD.getTime()) / 86400000) + 1; diasRestantes = Math.round((fH.getTime() - hoy.getTime()) / 86400000); if(dTot >= 30 && diasRestantes <= 6 && diasRestantes >= 0) debeAlertar = true; if(dTot < 30 && diasRestantes <= 1 && diasRestantes >= 0) debeAlertar = true; if(diasRestantes < 0) debeAlertar = true; } }
+                                if(debeAlertar) { let eStr = diasRestantes < 0 ? "⚠️ *FENECIÓ*" : `⏳ VENCE EN *${diasRestantes} DÍA(S)*`; if (diasRestantes === 0) eStr = "🚨 *VENCE HOY*"; tmpAlertasActivas[baseId] = { id: baseId, baseId: baseId, fecha: new Date().toLocaleDateString('es-EC'), remitente: "SISTEMA DINIC 🤖", texto: `Novedad de *${d[4]}* (CI: ${d[2]}) - ${eStr}.\\nFecha Límite: ${strH}`, leido: false, tipo: "RECIBIDO", destinatario: "YO", isSys: true }; }
+                            }
+                            let lAEnviar = Object.values(tmpAlertasActivas);
+                            if(lAEnviar.length > 0) fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "forzarEnvioWhatsAppFrontend", alertas: lAEnviar, usuario_logueado: userLog }) });
+                        }});
+                    }, index * 2000); // 2 segundos entre cada envío
+                });
+                setTimeout(() => { btn.innerText = "🚀 Enviar a Telegram Ahora"; btn.disabled = false; alert("Secuencia masiva completada."); }, 10000);
+                return;
+            }
+
+            // Flujo normal para una sola unidad
+            let ciLog = localStorage.getItem('usuario_ci') || 'default';
+            let alertasActivas = JSON.parse(localStorage.getItem('sys_alerts_active_' + ciLog) || '{}'); let listaAEnviar = []; 
+            for (let key in alertasActivas) { let a = alertasActivas[key]; let p = a.baseId.split("-"); let unidadAlerta = p[1]; let msjTexto = a.texto; let pasaFiltro = true; if (unidadFiltro !== "TODAS" && unidadAlerta !== unidadFiltro) pasaFiltro = false; if (cedulaFiltro !== "" && msjTexto.indexOf(cedulaFiltro) === -1) pasaFiltro = false; if (pasaFiltro) listaAEnviar.push(a); } 
+            if(listaAEnviar.length === 0) return alert("No hay notificaciones en la bandeja que coincidan con esos filtros.");
+            if(!confirm(`Se enviarán ${listaAEnviar.length} notificación(es) a Telegram. ¿Proceder?`)) return; btn.innerText = "Enviando..."; btn.disabled = true;
+            let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; 
+            fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "forzarEnvioWhatsAppFrontend", alertas: listaAEnviar, usuario_logueado: userLog }) }).then(r => r.json()).then(res => { if(res.status === "éxito") { alert(`🚀 Listo. Se han enviado a Telegram.`); cargarAuditoria(); } else { alert("❌ Error al enviar."); } }).finally(() => { btn.innerText = "🚀 Enviar a Telegram Ahora"; btn.disabled = false; });
+        }
         function inyectarNovedadesExtra() { let extra = localStorage.getItem('novedades_admin'); if(!extra) return; let arr = extra.split('|').filter(x => x.trim() !== ""); let selectsIds = ['bi-novedad', 'bi-novedad1', 'upd-novedad', 'upd-novedad1', 'dash-novedad', 'dash-novedad1', 'novedad', 'novedad1']; selectsIds.forEach(id => { let sel = document.getElementById(id); if(sel) { Array.from(sel.options).forEach(opt => { if(opt.classList.contains('custom-nov')) opt.remove(); }); arr.forEach(nov => { let op = document.createElement('option'); op.value = nov.trim().toUpperCase(); op.innerText = "⭐ " + nov.trim().toUpperCase(); op.classList.add('custom-nov'); sel.appendChild(op); }); } }); }
         function renderNovedadesAdmin() { let extra = localStorage.getItem('novedades_admin') || ""; let arr = extra.split('|').filter(x => x.trim() !== ""); let cont = document.getElementById('lista-novedades-admin'); if(!cont) return; cont.innerHTML = ""; arr.forEach((nov, i) => { cont.innerHTML += `<span style="background:white; border:1px solid #ccc; padding:5px 10px; border-radius:15px; font-size:12px; font-weight:bold; color:var(--primary-color);">${nov} <span style="color:red; cursor:pointer; margin-left:5px;" onclick="eliminarNovedadAdmin(${i})">✖</span></span>`; }); }
         function agregarNovedadAdmin() { let val = document.getElementById('admin-new-nov').value.trim().toUpperCase(); if(!val) return; let extra = localStorage.getItem('novedades_admin') || ""; let arr = extra.split('|').filter(x => x.trim() !== ""); if(arr.includes(val)) return alert("Esta novedad ya existe en la lista."); arr.push(val); localStorage.setItem('novedades_admin', arr.join('|')); document.getElementById('admin-new-nov').value = ""; renderNovedadesAdmin(); inyectarNovedadesExtra(); }
