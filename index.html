@@ -1067,10 +1067,10 @@
                     let statusBadge = isEnviado ? `<span style="color:#2980b9; font-size:11px; float:right;">📤 Enviado a: ${m.destinatario}</span>` : (isUnread ? `<span style="color:#e74c3c; font-size:11px; float:right;">🔔 NUEVO</span>` : `<span style="color:#bdc3c7; font-size:11px; float:right;">✔️ Leído</span>`);
                     
                     let paramId = `'${m.id}'`; let paramFR = m.filaReal || 0; let paramSys = isSys ? 'true' : 'false';
-                    let btnLeido = (isUnread && !isEnviado) ? `<button class="btn-marcar-leido" style="margin-top:10px; background:#3498db; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:5px;" onclick="marcarLeido(${paramId}, ${paramFR}, ${paramSys})">✔️ Marcar como Leído</button>` : "";
-                    let btnEliminar = isSys ? "" : `<button style="margin-top:10px; background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="eliminarMensaje(${paramId}, ${paramFR}, ${paramSys})">🗑️ Eliminar</button>`;
-                    
-                    let colorBorde = isEnviado ? '#2980b9' : (isUnread ? '#e74c3c' : '#bdc3c7');
+                    let btnLeido = (isSys && isUnread) ? `<button class="btn-marcar-leido" style="margin-top:10px; background:#3498db; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:5px;" onclick="marcarLeido(${paramId}, ${paramFR}, ${paramSys})">✔️ Marcar como Leído</button>` : "";
+                    let btnEliminar = isSys ? `<button style="margin-top:10px; background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="eliminarMensaje(${paramId}, ${paramFR}, ${paramSys})">🗑️ Ocultar</button>` : "";
+                   
+					let colorBorde = isEnviado ? '#2980b9' : (isUnread ? '#e74c3c' : '#bdc3c7');
                     let textoLimpio = String(m.texto || ""); let textoVisual = textoLimpio.replace(/\n/g, '<br>').replace(/\*/g, '<b>').replace(/\b<b>/g, '<b>').replace(/<b>\b/g, '</b>');
                     cont.innerHTML += `<div class="msj-item" id="msj-row-${m.id}" style="border-left-color: ${colorBorde}"><div class="msj-fecha">${m.fecha} | De: ${m.remitente} <span id="msj-badge-${m.id}">${statusBadge}</span></div><div style="margin-top:5px; font-size:14px; margin-bottom:5px;">${textoVisual}</div><div style="text-align:right;" id="msj-actions-${m.id}">${btnLeido} ${btnEliminar}</div></div>`;
                 });
