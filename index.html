@@ -444,6 +444,19 @@
                             <select id="tipo-desde" onchange="toggleFechas(this)"><option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option></select>
                             <div class="flex-row" style="margin-top: 8px;"><input type="date" id="fecha-desde" class="hidden" onchange="calcularHasta(this)"><input type="number" id="dias-desde" class="hidden" placeholder="Nº días" oninput="calcularHasta(this)" min="1" style="width: 120px;"></div>
                         </div>
+						<div class="form-group" style="grid-column: 1 / -1; background: #fdfefe; padding: 15px; border: 1px dashed #8e44ad; border-radius: 8px;">
+                            <h4 style="margin-top:0; margin-bottom:15px; color:#8e44ad;">🧮 Complementos Novedad Secundaria</h4>
+                            <div class="form-grid" style="margin-top:0;">
+                                <div class="form-group"><label>DETALLE 2</label><input type="text" id="detalle2" style="text-transform:uppercase;"></div>
+                                <div class="form-group"><label>DOCUMENTO 2 / SUSCRIBE</label><input type="text" id="documento2" style="text-transform:uppercase;"></div>
+                                <div class="form-group"><label>DESDE 2</label>
+                                    <select id="tipo-desde2" onchange="toggleFechas2(this)"><option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option></select>
+                                    <div class="flex-row" style="margin-top: 8px;"><input type="date" id="fecha-desde2" class="hidden" onchange="calcularHasta2(this)"><input type="number" id="dias-desde2" class="hidden" placeholder="Nº días" oninput="calcularHasta2(this)" min="1" style="width: 120px;"></div>
+                                </div>
+                                <div class="form-group"><label>HASTA 2</label><div id="hasta-ninguna2" style="font-weight: bold; color: #7f8c8d; padding: 10px 0;">NINGUNA</div><input type="date" id="fecha-hasta2" class="hidden"></div>
+                                <div class="form-group"><label>ESTADO 2</label><select id="estado2" class="readonly-field" disabled><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select></div>
+                            </div>
+                        </div>
                         <div class="form-group"><label>HASTA</label><div id="hasta-ninguna" style="font-weight: bold; color: #7f8c8d; padding: 10px 0;">NINGUNA</div><input type="date" id="fecha-hasta" class="hidden"></div>
                         <div class="form-group"><label>NUEVOS REQUERIMIENTOS/ ESTADOS DE TRASLADOS</label><select id="nuevos-requerimientos" class="readonly-field" disabled><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select></div>
                         <div class="form-group"><label>SERVIDOR POLICIAL ESTA EN LA DIRECCION O UNIDAD <span class="req-star">*</span></label><select id="servidor-ubicacion" required><option value="">Seleccione...</option><option value="EN LA UNIDAD">EN LA UNIDAD</option><option value="FUERA DE LA UNIDAD">FUERA DE LA UNIDAD</option></select></div>
@@ -1167,7 +1180,7 @@
             const campos = ['dir-unidad', 'zona', 'subzona', 'subsistema', 'cedula', 'grado', 'nombres', 'fecha-nacimiento', 'mes-nacimiento', 'sexo', 'estado-civil', 'provincia', 'correo', 'telefono', 'fecha-traslado-nueva', 'novedad', 'servidor-ubicacion', 'nivel-gestion'];
             for (let i of campos) { let el = document.getElementById(i); if (!el || (el.value?el.value.trim():"") === "") { alert("Falta campo obligatorio."); if(el) el.focus(); return; } }
             guardarMemorias(); const g = (id) => { let e = document.getElementById(id); let v = e ? e.value.toUpperCase() : ""; return (v==="NINGUNA"||v==="")?"":v; };
-            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "" ];
+            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "", g("detalle2"), g("documento2"), g("fecha-desde2"), g("fecha-hasta2"), g("estado2") ];
             let btn = document.querySelector('#modulo-agregar .btn-guardar'); btn.innerText = "GUARDANDO..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "guardar", datos: d, usuario_logueado: userLog }) }).then(res => res.json()).then(r => { if(r.status === "éxito") { alert("Guardado."); document.getElementById('form-nuevo-registro').reset(); aplicarPermisosUnidad(); } else alert("Error: " + r.message); }).catch(e => alert("Error de red.")).finally(() => { btn.innerText = "GUARDAR NUEVO SERVIDOR"; btn.disabled = false; });
         }
@@ -1215,6 +1228,12 @@
             s('dir-unidad', d[0]); s('cedula', d[2]); s('grado', d[3]); s('nombres', d[4]); s('zona', d[5]); s('subzona', d[6]); s('distrito', d[7]); s('circuito', d[8]); s('subcircuito', d[9]); s('jefatura', d[10]); s('subsistema', d[11]); s('pase-dnath', d[12]); s('cargo-designado', d[13]); s('provincia', d[14]); s('estado-civil', d[15]); s('correo', d[16]); s('telefono', d[17]); s('novedad', d[18]); s('novedad1', d[19]); s('detalle', d[20]); s('documento', d[21]); 
             let fDesdeVal = formatearFechaParaHTML(d[22]); let fHastaVal = formatearFechaParaHTML(d[23]); s('fecha-desde', fDesdeVal); s('fecha-hasta', fHastaVal); let tipoDesdeVt = document.getElementById('vt-tipo-desde'); if (tipoDesdeVt) { tipoDesdeVt.value = (fDesdeVal || fHastaVal) ? "REGISTRAR" : "NINGUNA"; toggleFechas(tipoDesdeVt); }
             s('nuevos-requerimientos', d[24]); s('servidor-ubicacion', d[25]); s('grupos-trabajo', d[26]); s('fin-semana', d[27]); s('nivel-gestion', d[28]); s('fecha-nacimiento', formatearFechaParaHTML(d[29])); s('mes-nacimiento', d[30]); s('sexo', d[32]); s('promocion', d[33]); s('detalle-prom', d[34]); s('antiguedad', d[35]); s('fecha-ingreso', formatearFechaParaHTML(d[36])); s('fecha-ascenso', formatearFechaParaHTML(d[37])); s('fecha-prox-ascenso', formatearFechaParaHTML(d[38])); s('fecha-traslado-nueva', formatearFechaParaHTML(d[41]));
+			s('detalle2', d[45]); s('documento2', d[46]); 
+            let fDesdeVal2 = formatearFechaParaHTML(d[47]); let fHastaVal2 = formatearFechaParaHTML(d[48]); 
+            s('fecha-desde2', fDesdeVal2); s('fecha-hasta2', fHastaVal2); 
+            let tipoDesde2 = document.getElementById('vt-tipo-desde2'); 
+            if (tipoDesde2) { tipoDesde2.value = (fDesdeVal2 || fHastaVal2) ? "REGISTRAR" : "NINGUNA"; toggleFechas2(tipoDesde2); }
+            s('estado2', d[49]);
             document.getElementById('bi-formulario-completo').classList.remove('hidden');
         }
 
@@ -1271,6 +1290,12 @@
             s('dir-unidad', d[0]); s('cedula', d[2]); s('grado', d[3]); s('nombres', d[4]); s('zona', d[5]); s('subzona', d[6]); s('distrito', d[7]); s('circuito', d[8]); s('subcircuito', d[9]); s('jefatura', d[10]); s('subsistema', d[11]); s('pase-dnath', d[12]); s('cargo-designado', d[13]); s('provincia', d[14]); s('estado-civil', d[15]); s('correo', d[16]); s('telefono', d[17]); s('novedad', d[18]); s('novedad1', d[19]); s('detalle', d[20]); s('documento', d[21]); 
             let fDesdeValEd = formatearFechaParaHTML(d[22]); let fHastaValEd = formatearFechaParaHTML(d[23]); s('fecha-desde', fDesdeValEd); s('fecha-hasta', fHastaValEd); let tipoDesde = document.getElementById('ed-tipo-desde'); if (tipoDesde) { tipoDesde.value = (fDesdeValEd || fHastaValEd) ? "REGISTRAR" : "NINGUNA"; toggleFechas(tipoDesde); }
             s('nuevos-requerimientos', d[24]); s('servidor-ubicacion', d[25]); s('grupos-trabajo', d[26]); s('fin-semana', d[27]); s('nivel-gestion', d[28]); s('fecha-nacimiento', formatearFechaParaHTML(d[29])); s('mes-nacimiento', d[30]); s('sexo', d[32]); s('promocion', d[33]); s('detalle-prom', d[34]); s('antiguedad', d[35]); s('fecha-ingreso', formatearFechaParaHTML(d[36])); s('fecha-ascenso', formatearFechaParaHTML(d[37])); s('fecha-prox-ascenso', formatearFechaParaHTML(d[38])); s('fecha-traslado-nueva', formatearFechaParaHTML(d[41]));
+			s('detalle2', d[45]); s('documento2', d[46]); 
+            let fDesdeVal2 = formatearFechaParaHTML(d[47]); let fHastaVal2 = formatearFechaParaHTML(d[48]); 
+            s('fecha-desde2', fDesdeVal2); s('fecha-hasta2', fHastaVal2); 
+            let tipoDesde2 = document.getElementById('ed-tipo-desde2'); 
+            if (tipoDesde2) { tipoDesde2.value = (fDesdeVal2 || fHastaVal2) ? "REGISTRAR" : "NINGUNA"; toggleFechas2(tipoDesde2); }
+            s('estado2', d[49]);
             cont.classList.remove('hidden');
         }
 
@@ -1278,7 +1303,7 @@
 
         function ejecutarActualizacionRegistro(hoja, fila) {
             const g = (id) => { let e = document.getElementById('ed-'+id); let v = e ? e.value.toUpperCase() : ""; return (v==="NINGUNA"||v==="")?" ":v; };
-            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "" ];
+            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "", g("detalle2"), g("documento2"), g("fecha-desde2"), g("fecha-hasta2"), g("estado2") ];
             let cont = document.getElementById('contenedor-formulario-edicion'); let btn = cont.querySelector('.btn-guardar'); btn.innerText = "ACTUALIZANDO..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "actualizar", hoja: hoja, fila: fila, datos: d, usuario_logueado: userLog }) }).then(res => res.json()).then(r => { if(r.status === "éxito") { alert("¡Registro actualizado!"); volverATablaUPD(); let btnFiltro = document.getElementById('btn-upd-exec'); if(btnFiltro && !btnFiltro.disabled) btnFiltro.click(); } else alert("Error: " + r.message); }).catch(e => alert("Error")).finally(() => { btn.innerText = "💾 GUARDAR CAMBIOS INDIVIDUALES"; btn.disabled = false; });
         }
@@ -1540,6 +1565,28 @@
         function guardarNovedadesBackend() { let extra = localStorage.getItem('novedades_admin') || ""; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; let btn = document.querySelector('button[onclick="guardarNovedadesBackend()"]'); btn.innerText = "Guardando..."; btn.disabled = true; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "guardarNovedadesAdmin", novedades_admin: extra, usuario_logueado: userLog}) }).then(r => r.json()).then(res => { if(res.status === "éxito") alert("✅ Novedades guardadas en la base. Todos los usuarios las verán la próxima vez que inicien sesión."); }).finally(() => { btn.innerText = "💾 Guardar Novedades en el Sistema"; btn.disabled = false; }); }
         function renderConfigOrganicoAdmin() { let conf = JSON.parse(localStorage.getItem('config_organico') || '{}'); document.getElementById('org-on-general').value = conf.on_general || 0; document.getElementById('org-on-dinic-planta').value = conf.on_dinic_planta || 0; document.getElementById('org-on-udar').value = conf.on_udar || 0; document.getElementById('org-on-undecof').value = conf.on_undecof || 0; document.getElementById('org-on-ucap').value = conf.on_ucap || 0; }
         function guardarConfigOrganico() { let conf = { on_general: document.getElementById('org-on-general').value, on_dinic_planta: document.getElementById('org-on-dinic-planta').value, on_udar: document.getElementById('org-on-udar').value, on_undecof: document.getElementById('org-on-undecof').value, on_ucap: document.getElementById('org-on-ucap').value }; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; let btn = document.querySelector('button[onclick="guardarConfigOrganico()"]'); btn.innerText = "Guardando..."; btn.disabled = true; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "guardarConfigOrganico", config: conf, usuario_logueado: userLog}) }).then(r => r.json()).then(res => { if(res.status === "éxito") { alert("✅ Valores del Orgánico Numérico guardados exitosamente."); localStorage.setItem('config_organico', JSON.stringify(conf)); cargarAuditoria(); } }).finally(() => { btn.innerText = "💾 Guardar Orgánico Numérico"; btn.disabled = false; }); }
+		function toggleFechas2(el) { 
+            let prefix = ''; if (el && el.id) { if (el.id.startsWith('ed-')) prefix = 'ed-'; else if (el.id.startsWith('vt-')) prefix = 'vt-'; } 
+            let tipo = document.getElementById(prefix + 'tipo-desde2').value; let fDesde = document.getElementById(prefix + 'fecha-desde2'); let dDesde = document.getElementById(prefix + 'dias-desde2');
+            let fHasta = document.getElementById(prefix + 'fecha-hasta2'); let txt = document.getElementById(prefix + 'hasta-ninguna2'); let req = document.getElementById(prefix + 'estado2');
+            if (tipo === 'NINGUNA') { fDesde.classList.add('hidden'); fDesde.value = ''; dDesde.classList.add('hidden'); dDesde.value = ''; fHasta.classList.add('hidden'); fHasta.value = ''; txt.classList.remove('hidden');
+            if(req) { req.value = 'NINGUNA'; req.disabled = true; req.classList.add('readonly-field'); } } else { fDesde.classList.remove('hidden'); dDesde.classList.remove('hidden'); fHasta.classList.remove('hidden'); txt.classList.add('hidden');
+            if(req) { if(req.value === 'NINGUNA') req.value = ''; req.disabled = false; req.classList.remove('readonly-field'); } } evaluarVigenciaTemporal2(prefix);
+        }
+        function calcularHasta2(el) { 
+            let prefix = el && el.id && el.id.startsWith('ed-') ? 'ed-' : ''; let fD = document.getElementById(prefix + 'fecha-desde2').value; let d = parseInt(document.getElementById(prefix + 'dias-desde2').value);
+            let fH = document.getElementById(prefix + 'fecha-hasta2'); if (fD && !isNaN(d) && d > 0) { let obj = new Date(fD);
+            obj.setDate(obj.getDate() + (d - 1)); fH.value = obj.toISOString().split('T')[0]; fH.setAttribute('readonly', true); fH.classList.add('readonly-field'); } else { fH.removeAttribute('readonly'); fH.classList.remove('readonly-field'); } evaluarVigenciaTemporal2(prefix);
+        }
+        function evaluarVigenciaTemporal2(prefix) { 
+            let inputHasta = document.getElementById(prefix + 'fecha-hasta2');
+            let inputEstado = document.getElementById(prefix + 'estado2'); if(inputHasta && inputHasta.value && inputEstado) { const fechaLimite = new Date(inputHasta.value + "T00:00:00");
+            const fechaActual = new Date(); fechaActual.setHours(0,0,0,0); if(fechaLimite >= fechaActual) { inputEstado.value = "VIGENTE"; inputEstado.style.backgroundColor = "#d4edda"; inputEstado.style.color = "#155724";
+            } else { inputEstado.value = "FENECIDO"; inputEstado.style.backgroundColor = "#f8d7da"; inputEstado.style.color = "#721c24";
+            } } else if (inputEstado) { inputEstado.style.backgroundColor = ""; inputEstado.style.color = "";
+            } 
+        }
+        document.addEventListener('change', function(e) { if(e.target.id === 'fecha-desde2' || e.target.id === 'fecha-hasta2') evaluarVigenciaTemporal2(''); if(e.target.id === 'ed-fecha-desde2' || e.target.id === 'ed-fecha-hasta2') evaluarVigenciaTemporal2('ed-'); });
     </script>
 </body>
 </html>
