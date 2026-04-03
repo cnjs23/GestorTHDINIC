@@ -1467,12 +1467,16 @@
             let cont = document.getElementById('lote-input-container'); if (campoIndex === "") { cont.innerHTML = ""; return; } 
             let html = `<label style="color:var(--primary-color); font-weight:bold;">Ingresa los nuevos valores que se aplicarán a todos los seleccionados:</label><br><br>`;
             
-            // CIRUGÍA: NOVEDAD INTELIGENTE
+            // 🧠 CIRUGÍA: NOVEDAD INTELIGENTE (CON ESCOBAS DE LIMPIEZA)
             if (campoIndex === "18_19") { 
                 html += `<div style="background:#f4f7fb; padding:15px; border-radius:8px; border:1px solid #c5d3e8;">
                             <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">REGISTRO DE NOVEDAD (AUTO-ASIGNABLE)</label>
                             <select id="lote-val-final" style="width:100%; padding:8px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px;">
-                                <option value="NINGUNA">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
+                                <option value="">-- ELIGE UNA NOVEDAD O ACCIÓN --</option>
+                                <option value="LIMPIAR_1" style="color: #c0392b; font-weight: bold;">🧹 LIMPIAR SÓLO NOVEDAD PRINCIPAL (🔴)</option>
+                                <option value="LIMPIAR_2" style="color: #8e44ad; font-weight: bold;">🧹 LIMPIAR SÓLO NOVEDAD SECUNDARIA (🟣)</option>
+                                <option value="LIMPIAR_AMBAS" style="color: #d35400; font-weight: bold;">🧹 LIMPIAR AMBAS NOVEDADES</option>
+                                <option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
                 let extra = localStorage.getItem('novedades_admin');
                 if(extra) { let arr = extra.split('|').filter(x => x.trim() !== ""); arr.forEach(nov => { html += `<option value="${nov}">⭐ ${nov}</option>`; }); }
                 html += `</select>
@@ -1508,19 +1512,26 @@
 	
        async function ejecutarLoteDefinitivo() {
             let campo = document.getElementById('lote-campo-select').value; if(!campo) return alert("Elige un campo a actualizar.");
-            let valorInput = document.getElementById('lote-val-final'); if(!valorInput || valorInput.value === "") return alert("Ingresa el nuevo valor.");
+            let valorInput = document.getElementById('lote-val-final'); if(!valorInput || valorInput.value === "") return alert("Ingresa o selecciona el nuevo valor.");
             let valor = valorInput.type === "date" ? valorInput.value : valorInput.value.toUpperCase();
+
+            // 🧠 DETECTAMOS SI EL USUARIO QUIERE USAR UNA ESCOBA DE LIMPIEZA
+            let esLimpieza1 = (valor === "LIMPIAR_1");
+            let esLimpieza2 = (valor === "LIMPIAR_2");
+            let esLimpiezaAmbas = (valor === "LIMPIAR_AMBAS");
+            
+            // Si por alguna razón entra un "NINGUNA" antiguo, lo ignoramos
             if (valor === "NINGUNA" || valor === "") valor = " "; 
 
-            // 🧠 CAPTURAR LOS CAMPOS SI ES LA NOVEDAD INTELIGENTE
+            // CAPTURAR LOS CAMPOS SOLO SI ES ASIGNACIÓN INTELIGENTE (No limpieza)
             let valDetalle = " ", valDoc = " ", valFDesde = " ", valFHasta = " ", valReq = " ";
-            if(campo === "18_19") {
+            if(campo === "18_19" && !esLimpieza1 && !esLimpieza2 && !esLimpiezaAmbas) {
                 valDetalle = document.getElementById('lote-detalle').value.toUpperCase() || " ";
                 valDoc = document.getElementById('lote-documento').value.toUpperCase() || " ";
                 valFDesde = document.getElementById('lote-fecha-desde').value || " ";
                 if(document.getElementById('lote-tipo-desde').value === "NINGUNA") valFDesde = " ";
                 valFHasta = document.getElementById('lote-fecha-hasta').value || " ";
-                valReq = document.getElementById('lote-nuevos-requerimientos').value || "NINGUNA";
+                valReq = document.getElementById('lote-nuevos-requerimientos').value || " ";
                 if(valReq === "NINGUNA" || valReq === "") valReq = " ";
             }
 
@@ -1539,19 +1550,32 @@
                 let hr = reg.hojaOrigen; 
                 let d = reg.datosEncontrados; 
                 
-                // 🧠 LÓGICA DE ESCANEO DE ESPACIOS
                 if(campo === "18_19") {
-                    let nov1Vacia = (!d[18] || d[18].trim() === "" || d[18] === "NINGUNA");
-                    let nov2Vacia = (!d[19] || d[19].trim() === "" || d[19] === "NINGUNA");
-
-                    if(nov1Vacia) {
-                        d[18] = valor; d[20] = valDetalle; d[21] = valDoc; d[22] = valFDesde; d[23] = valFHasta; d[24] = valReq;
+                    // 🧹 EJECUCIÓN DE LAS ESCOBAS DE PRECISIÓN (DEJAN TODO EN BLANCO " ")
+                    if (esLimpieza1) {
+                        d[18] = " "; d[20] = " "; d[21] = " "; d[22] = " "; d[23] = " "; d[24] = " ";
                         paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
-                    } else if(nov2Vacia) {
-                        d[19] = valor; d[45] = valDetalle; d[46] = valDoc; d[47] = valFDesde; d[48] = valFHasta; d[49] = valReq;
+                    } else if (esLimpieza2) {
+                        d[19] = " "; d[45] = " "; d[46] = " "; d[47] = " "; d[48] = " "; d[49] = " ";
+                        paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
+                    } else if (esLimpiezaAmbas) {
+                        d[18] = " "; d[20] = " "; d[21] = " "; d[22] = " "; d[23] = " "; d[24] = " ";
+                        d[19] = " "; d[45] = " "; d[46] = " "; d[47] = " "; d[48] = " "; d[49] = " ";
                         paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
                     } else {
-                        omitidos.push(d[4] + " (CI: " + d[2] + ")");
+                        // 🤖 MODO ASIGNACIÓN INTELIGENTE (Constructor)
+                        let nov1Vacia = (!d[18] || d[18].trim() === "" || d[18] === "NINGUNA");
+                        let nov2Vacia = (!d[19] || d[19].trim() === "" || d[19] === "NINGUNA");
+
+                        if(nov1Vacia) {
+                            d[18] = valor; d[20] = valDetalle; d[21] = valDoc; d[22] = valFDesde; d[23] = valFHasta; d[24] = valReq;
+                            paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
+                        } else if(nov2Vacia) {
+                            d[19] = valor; d[45] = valDetalle; d[46] = valDoc; d[47] = valFDesde; d[48] = valFHasta; d[49] = valReq;
+                            paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
+                        } else {
+                            omitidos.push(d[4] + " (CI: " + d[2] + ")");
+                        }
                     }
                 } else {
                     d[parseInt(campo)] = valor;
