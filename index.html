@@ -361,7 +361,7 @@
                         <h3 style="color:var(--secondary-color); margin-top:0;">⚡ Actualizar Lote (<span id="txt-lote-num">0</span> serv.)</h3>
                         <div class="form-group" style="margin-bottom:15px;">
                             <label>¿QUÉ CAMPO DESEAS ACTUALIZAR A TODOS?</label>
-                            <select id="lote-campo-select" onchange="mostrarInputLote(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                           <select id="lote-campo-select" onchange="mostrarInputLote(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
                                 <option value="">Selecciona el campo...</option>
                                 <option value="0">DIRECCIÓN-UNIDAD</option>
                                 <option value="5">ZONA DE POLICÍA</option>
@@ -378,8 +378,7 @@
                                 <option value="34">DETALLE PROM.</option>
                                 <option value="13">CARGO DESIGNADO</option>
                                 <option value="12">PASE DNATH</option>
-                                <option value="18">NOVEDAD PRINCIPAL</option>
-                                <option value="19">NOVEDAD SECUNDARIA</option>
+                                <option value="18_19">NOVEDADES (ASIGNACIÓN INTELIGENTE)</option>
                                 <option value="25">ESTÁ EN LA DIRECCIÓN O UNIDAD</option>
                                 <option value="26">GRUPOS DE TRABAJO</option>
                                 <option value="27">FIN DE SEMANA</option>
@@ -433,21 +432,55 @@
                         <div class="form-group"><label>FECHA PROXIMO ASCENSO</label><input type="date" id="fecha-prox-ascenso"></div>
                         <div class="form-group"><label>FECHA TRASLADO NUEVA NOMENCLATURA <span class="req-star">*</span></label><input type="date" id="fecha-traslado-nueva" required></div>
 
-                        <h3 class="section-title">📋 Novedades y Estado Actual</h3>
+                      <h3 class="section-title">📋 Novedades y Estado Actual</h3>
                         <div class="form-group"><label>CARGO DESIGNADO</label><input type="text" id="cargo-designado" list="dl-cargo" class="memoria-input" data-list="dl-cargo"><datalist id="dl-cargo"></datalist></div>
                         <div class="form-group"><label>PASE DNATH</label><input type="text" id="pase-dnath" list="dl-pase" class="memoria-input" data-list="dl-pase"><datalist id="dl-pase"></datalist></div>
-                        <div class="form-group"><label>NOVEDAD <span class="req-star">*</span></label><select id="novedad" required><option value="">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option></select></div>
-                        <div class="form-group"><label>NOVEDAD 1</label><select id="novedad1"><option value="">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option></select></div>
-                        <div class="form-group"><label>DETALLE</label><input type="text" id="detalle" list="dl-detalle" class="memoria-input" data-list="dl-detalle"><datalist id="dl-detalle"></datalist></div>
-                        <div class="form-group"><label>DOCUMENTO / QUIEN SUSCRIBE</label><input type="text" id="documento" list="dl-documento" class="memoria-input" data-list="dl-documento"><datalist id="dl-documento"></datalist></div>
-                        <div class="form-group"><label>DESDE</label>
-                            <select id="tipo-desde" onchange="toggleFechas(this)"><option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option></select>
-                            <div class="flex-row" style="margin-top: 8px;"><input type="date" id="fecha-desde" class="hidden" onchange="calcularHasta(this)"><input type="number" id="dias-desde" class="hidden" placeholder="Nº días" oninput="calcularHasta(this)" min="1" style="width: 120px;"></div>
-                        </div>
-                        <div class="form-group"><label>HASTA</label><div id="hasta-ninguna" style="font-weight: bold; color: #7f8c8d; padding: 10px 0;">NINGUNA</div><input type="date" id="fecha-hasta" class="hidden"></div>
-                        <div class="form-group"><label>NUEVOS REQUERIMIENTOS/ ESTADOS DE TRASLADOS</label><select id="nuevos-requerimientos" class="readonly-field" disabled><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select></div>
                         <div class="form-group"><label>SERVIDOR POLICIAL ESTA EN LA DIRECCION O UNIDAD <span class="req-star">*</span></label><select id="servidor-ubicacion" required><option value="">Seleccione...</option><option value="EN LA UNIDAD">EN LA UNIDAD</option><option value="FUERA DE LA UNIDAD">FUERA DE LA UNIDAD</option></select></div>
-                        
+
+                        <div class="contenedor-novedades" style="grid-column: 1 / -1; border: 2px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-top: 10px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                            <div class="header-novedad" style="background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 15px 20px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;" onclick="togglePanelNovedad(this)">
+                                <span style="font-size: 15px;">🔴 GESTIONAR NOVEDAD PRINCIPAL</span>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span class="resumen-nov" style="font-size: 11px; background: white; color: #c0392b; padding: 4px 12px; border-radius: 12px; font-weight:900; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">NINGUNA</span>
+                                    <span style="font-size: 12px;">▼</span>
+                                </div>
+                            </div>
+                            <div class="panel-novedad" style="display: none; padding: 25px; background: #fff5f5; border-bottom: 2px solid #e2e8f0;">
+                                <div class="form-grid" style="margin-top: 0;">
+                                    <div class="form-group"><label style="color:#c0392b;">NOVEDAD PRINCIPAL <span class="req-star">*</span></label><select id="novedad" onchange="actualizarResumenNov(this)" style="border-color:#f1948a; border-width: 2px;" required><option value="">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option></select></div>
+                                    <div class="form-group"><label style="color:#c0392b;">DETALLE</label><input type="text" id="detalle" list="dl-detalle" class="memoria-input" data-list="dl-detalle" style="border-color:#f1948a; text-transform:uppercase;"><datalist id="dl-detalle"></datalist></div>
+                                    <div class="form-group"><label style="color:#c0392b;">DOCUMENTO / QUIEN SUSCRIBE</label><input type="text" id="documento" list="dl-documento" class="memoria-input" data-list="dl-documento" style="border-color:#f1948a; text-transform:uppercase;"><datalist id="dl-documento"></datalist></div>
+                                    <div class="form-group"><label style="color:#c0392b;">DESDE</label>
+                                        <select id="tipo-desde" onchange="toggleFechas(this)" style="border-color:#f1948a;"><option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option></select>
+                                        <div class="flex-row" style="margin-top: 8px;"><input type="date" id="fecha-desde" class="hidden" onchange="calcularHasta(this)" style="border-color:#f1948a;"><input type="number" id="dias-desde" class="hidden" placeholder="Nº días" oninput="calcularHasta(this)" min="1" style="width: 120px; border-color:#f1948a;"></div>
+                                    </div>
+                                    <div class="form-group"><label style="color:#c0392b;">HASTA</label><div id="hasta-ninguna" style="font-weight: bold; color: #c0392b; padding: 10px 0; background: rgba(231, 76, 60, 0.1); border-radius: 4px; text-align: center; border: 1px dashed #e74c3c;">NINGUNA</div><input type="date" id="fecha-hasta" class="hidden" style="border-color:#f1948a;"></div>
+                                    <div class="form-group"><label style="color:#c0392b;">NUEVOS REQUERIMIENTOS/ ESTADOS DE TRASLADOS</label><select id="nuevos-requerimientos" class="readonly-field" disabled style="border-color:#f1948a;"><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select></div>
+                                </div>
+                            </div>
+
+                            <div class="header-novedad" style="background: linear-gradient(90deg, #8e44ad 0%, #732d91 100%); color: white; padding: 15px 20px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;" onclick="togglePanelNovedad(this)">
+                                <span style="font-size: 15px;">🟣 GESTIONAR NOVEDAD SECUNDARIA</span>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span class="resumen-nov" style="font-size: 11px; background: white; color: #732d91; padding: 4px 12px; border-radius: 12px; font-weight:900; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">NINGUNA</span>
+                                    <span style="font-size: 12px;">▼</span>
+                                </div>
+                            </div>
+                            <div class="panel-novedad" style="display: none; padding: 25px; background: #faf5ff;">
+                                <div class="form-grid" style="margin-top: 0;">
+                                    <div class="form-group"><label style="color:#732d91;">NOVEDAD SECUNDARIA</label><select id="novedad1" onchange="actualizarResumenNov(this)" style="border-color:#d7bde2; border-width: 2px;"><option value="">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option></select></div>
+                                    <div class="form-group"><label style="color:#732d91;">DETALLE 2</label><input type="text" id="detalle2" style="text-transform:uppercase; border-color:#d7bde2;"></div>
+                                    <div class="form-group"><label style="color:#732d91;">DOCUMENTO 2 / SUSCRIBE</label><input type="text" id="documento2" style="text-transform:uppercase; border-color:#d7bde2;"></div>
+                                    <div class="form-group"><label style="color:#732d91;">DESDE 2</label>
+                                        <select id="tipo-desde2" onchange="toggleFechas2(this)" style="border-color:#d7bde2;"><option value="NINGUNA">NINGUNA</option><option value="REGISTRAR">REGISTRAR FECHA</option></select>
+                                        <div class="flex-row" style="margin-top: 8px;"><input type="date" id="fecha-desde2" class="hidden" onchange="calcularHasta2(this)" style="border-color:#d7bde2;"><input type="number" id="dias-desde2" class="hidden" placeholder="Nº días" oninput="calcularHasta2(this)" min="1" style="width: 120px; border-color:#d7bde2;"></div>
+                                    </div>
+                                    <div class="form-group"><label style="color:#732d91;">HASTA 2</label><div id="hasta-ninguna2" style="font-weight: bold; color: #732d91; padding: 10px 0; background: rgba(142, 68, 173, 0.1); border-radius: 4px; text-align: center; border: 1px dashed #8e44ad;">NINGUNA</div><input type="date" id="fecha-hasta2" class="hidden" style="border-color:#d7bde2;"></div>
+                                    <div class="form-group"><label style="color:#732d91;">ESTADO 2</label><select id="estado2" class="readonly-field" disabled style="border-color:#d7bde2;"><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select></div>
+                                </div>
+                            </div>
+                        </div>
+						
                         <h3 class="section-title">⚙️ Gestión</h3>
                         <div class="form-group"><label>GRUPOS DE TRABAJO</label><input type="text" id="grupos-trabajo" placeholder="Registro manual"></div>
                         <div class="form-group"><label id="label-fin-semana">FIN DE SEMANA CALCULANDO...</label><select id="fin-semana"><option value="">Seleccione...</option><option value="FRANCO">FRANCO</option><option value="QUEDADA">QUEDADA</option><option value="FUERA DE LA UNIDAD">FUERA DE LA UNIDAD</option></select></div>
@@ -726,7 +759,7 @@
 
     <footer><strong>GESTOR DE TALENTO HUMANO DINIC</strong> | Soporte Técnico y Desarrollo<br>👤 John Stalin Carrillo Narvaez | ✉️ cnjstalin@gmail.com</footer>
 <script>
-        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzQWFUrKFhDprQqtDzu2TkwX1wap14h24DVm63WgGjL55w0hnTEktV_uIOVlUIees5U/exec";
+        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz313V2nAOvYm8lkBmtub3OldYnkeCijBB_3NRRrDPOqW9x6GALcwG7Uwl_16mdIAZb/exec";
         
         Chart.register(ChartDataLabels);
         google.charts.load('current', { 'packages':['geochart'] });
@@ -964,29 +997,49 @@
 
             for (let i = 0; i < datosMatriz.length; i++) {
                 let d = datosMatriz[i].datosEncontrados, filaReal = datosMatriz[i].filaReal, hojaOrigen = datosMatriz[i].hojaOrigen;
-                let baseId = 'sys-' + hojaOrigen + '-' + filaReal; 
-                let strD = formatearFechaParaHTML(d[22]); let strH = formatearFechaParaHTML(d[23]);
-                let debeAlertar = false; let diasRestantes = 0;
+                
+                // 🧠 LÓGICA DE DOBLE RADAR DE NOVEDADES
+                function evaluarNovedad(idxDesde, idxHasta, numPanel, nombreNov) {
+                    let strD = formatearFechaParaHTML(d[idxDesde]); let strH = formatearFechaParaHTML(d[idxHasta]);
+                    let debeAlertar = false; let diasRestantes = 0;
 
-                if(strD && strH && strD.includes("-") && strH.includes("-")) {
-                    let fD = new Date(strD + "T00:00:00"); let fH = new Date(strH + "T00:00:00");
-                    if(!isNaN(fD) && !isNaN(fH)) {
-                        let dTot = Math.round((fH.getTime() - fD.getTime()) / 86400000) + 1;
-                        diasRestantes = Math.round((fH.getTime() - hoy.getTime()) / 86400000);
-                        if(dTot >= 30 && diasRestantes <= 6 && diasRestantes >= 0) debeAlertar = true;
-                        if(dTot < 30 && diasRestantes <= 1 && diasRestantes >= 0) debeAlertar = true;
-                        if(diasRestantes < 0) debeAlertar = true;
+                    if(strD && strH && strD.includes("-") && strH.includes("-")) {
+                        let fD = new Date(strD + "T00:00:00"); let fH = new Date(strH + "T00:00:00");
+                        if(!isNaN(fD) && !isNaN(fH)) {
+                            let dTot = Math.round((fH.getTime() - fD.getTime()) / 86400000) + 1;
+                            diasRestantes = Math.round((fH.getTime() - hoy.getTime()) / 86400000);
+                            
+                            // Regla 1: Novedades largas (+30 días) avisan a los 6 días
+                            if(dTot >= 30 && diasRestantes <= 6 && diasRestantes >= 0) debeAlertar = true;
+                            // Regla 2: Novedades cortas avisan 1 día antes
+                            if(dTot < 30 && diasRestantes <= 1 && diasRestantes >= 0) debeAlertar = true;
+                            // Regla 3: Si ya pasó la fecha
+                            if(diasRestantes < 0) debeAlertar = true;
+                        }
+                    }
+
+                    if(debeAlertar) {
+                        // Creamos un ID único para la Novedad 1 y otro para la Novedad 2
+                        let baseId = 'sys-' + hojaOrigen + '-' + filaReal + '-' + numPanel; 
+                        idsValidos.add(baseId); 
+                        
+                        if(!eliminadasSys.includes(baseId)) {
+                            let eStr = diasRestantes < 0 ? "⚠️ *FENECIÓ*" : `⏳ VENCE EN *${diasRestantes} DÍA(S)*`;
+                            if (diasRestantes === 0) eStr = "🚨 *VENCE HOY*";
+                            
+                            let icono = numPanel === 1 ? "🔴" : "🟣";
+                            let txtNov = nombreNov && nombreNov !== "NINGUNA" ? nombreNov : "S/D";
+                            let pRead = alertasActivas[baseId] ? alertasActivas[baseId].leido : false;
+                            
+                            alertasActivas[baseId] = { id: baseId, baseId: baseId, fecha: new Date().toLocaleDateString('es-EC'), remitente: "SISTEMA DINIC 🤖", texto: `${icono} Novedad de *${d[4]}* (CI: ${d[2]}) - ${eStr}.\\nTipo: ${txtNov} | Límite: ${strH}`, leido: pRead, tipo: "RECIBIDO", destinatario: "YO", isSys: true };
+                        }
                     }
                 }
-                if(debeAlertar) {
-                    idsValidos.add(baseId); 
-                    if(!eliminadasSys.includes(baseId)) {
-                        let eStr = diasRestantes < 0 ? "⚠️ *FENECIÓ*" : `⏳ VENCE EN *${diasRestantes} DÍA(S)*`;
-                        if (diasRestantes === 0) eStr = "🚨 *VENCE HOY*";
-                        let pRead = alertasActivas[baseId] ? alertasActivas[baseId].leido : false;
-                        alertasActivas[baseId] = { id: baseId, baseId: baseId, fecha: new Date().toLocaleDateString('es-EC'), remitente: "SISTEMA DINIC 🤖", texto: `Novedad de *${d[4]}* (CI: ${d[2]}) - ${eStr}.\\nFecha Límite: ${strH}`, leido: pRead, tipo: "RECIBIDO", destinatario: "YO", isSys: true };
-                    }
-                }
+
+                // Disparamos el radar en los índices de la Novedad 1
+                evaluarNovedad(22, 23, 1, d[18]);
+                // Disparamos el radar en los índices de la Novedad 2
+                evaluarNovedad(47, 48, 2, d[19]);
             }
 
             if(isGlobalScan) { for(let key in alertasActivas) { if(!idsValidos.has(key)) { delete alertasActivas[key]; } } }
@@ -1167,7 +1220,7 @@
             const campos = ['dir-unidad', 'zona', 'subzona', 'subsistema', 'cedula', 'grado', 'nombres', 'fecha-nacimiento', 'mes-nacimiento', 'sexo', 'estado-civil', 'provincia', 'correo', 'telefono', 'fecha-traslado-nueva', 'novedad', 'servidor-ubicacion', 'nivel-gestion'];
             for (let i of campos) { let el = document.getElementById(i); if (!el || (el.value?el.value.trim():"") === "") { alert("Falta campo obligatorio."); if(el) el.focus(); return; } }
             guardarMemorias(); const g = (id) => { let e = document.getElementById(id); let v = e ? e.value.toUpperCase() : ""; return (v==="NINGUNA"||v==="")?"":v; };
-            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "" ];
+            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "", g("detalle2"), g("documento2"), g("fecha-desde2"), g("fecha-hasta2"), g("estado2") ];
             let btn = document.querySelector('#modulo-agregar .btn-guardar'); btn.innerText = "GUARDANDO..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "guardar", datos: d, usuario_logueado: userLog }) }).then(res => res.json()).then(r => { if(r.status === "éxito") { alert("Guardado."); document.getElementById('form-nuevo-registro').reset(); aplicarPermisosUnidad(); } else alert("Error: " + r.message); }).catch(e => alert("Error de red.")).finally(() => { btn.innerText = "GUARDAR NUEVO SERVIDOR"; btn.disabled = false; });
         }
@@ -1176,7 +1229,33 @@
         function calcularHasta(el) { let prefix = el && el.id && el.id.startsWith('ed-') ? 'ed-' : ''; let fD = document.getElementById(prefix + 'fecha-desde').value; let d = parseInt(document.getElementById(prefix + 'dias-desde').value); let fH = document.getElementById(prefix + 'fecha-hasta'); if (fD && !isNaN(d) && d > 0) { let obj = new Date(fD); obj.setDate(obj.getDate() + (d - 1)); fH.value = obj.toISOString().split('T')[0]; fH.setAttribute('readonly', true); fH.classList.add('readonly-field'); } else { fH.removeAttribute('readonly'); fH.classList.remove('readonly-field'); } evaluarVigenciaTemporal(prefix); }
         function evaluarVigenciaTemporal(prefix) { let inputHasta = document.getElementById(prefix + 'fecha-hasta'); let inputEstado = document.getElementById(prefix + 'nuevos-requerimientos'); if(inputHasta && inputHasta.value && inputEstado) { const fechaLimite = new Date(inputHasta.value + "T00:00:00"); const fechaActual = new Date(); fechaActual.setHours(0,0,0,0); if(fechaLimite >= fechaActual) { inputEstado.value = "VIGENTE"; inputEstado.style.backgroundColor = "#d4edda"; inputEstado.style.color = "#155724"; } else { inputEstado.value = "FENECIDO"; inputEstado.style.backgroundColor = "#f8d7da"; inputEstado.style.color = "#721c24"; } } else if (inputEstado) { inputEstado.style.backgroundColor = ""; inputEstado.style.color = ""; } }
         document.addEventListener('change', function(e) { if(e.target.id === 'fecha-desde' || e.target.id === 'fecha-hasta') evaluarVigenciaTemporal(''); if(e.target.id === 'ed-fecha-desde' || e.target.id === 'ed-fecha-hasta') evaluarVigenciaTemporal('ed-'); });
+		
+		// ==========================================
+        // 💫 ANIMACIÓN DE PANELES DE NOVEDADES
+        // ==========================================
+        function togglePanelNovedad(el) {
+            let panel = el.nextElementSibling;
+            let flecha = el.querySelector('div span:last-child');
+            if (panel.style.display === "none" || !panel.style.display) {
+                panel.style.display = "block";
+                flecha.innerText = "▲";
+                el.style.opacity = "0.9";
+            } else {
+                panel.style.display = "none";
+                flecha.innerText = "▼";
+                el.style.opacity = "1";
+            }
+        }
 
+        function actualizarResumenNov(el) {
+            let val = el.value.trim() || "NINGUNA";
+            let header = el.closest('.panel-novedad').previousElementSibling;
+            if (header) {
+                let resumen = header.querySelector('.resumen-nov');
+                if (resumen) resumen.innerText = val.length > 22 ? val.substring(0, 22) + "..." : val;
+            }
+        }
+	
         // 💉 INCISIÓN LÁSER: RESTRICCIÓN DE VISIBILIDAD DE FICHA POLICIAL
         function ejecutarFiltroBI() {
             let uniPermitida = localStorage.getItem('unidad') || "TODAS"; 
@@ -1193,10 +1272,24 @@
             .then(res => res.json()).then(r => {
                 if(r.status === "éxito") {
                     msj.innerHTML = `✅ Filtro aplicado: <span style="color:var(--danger-color);">${r.resultados.length}</span> servidores encontrados.`; window.resultadosBITemporal = r.resultados; let tb = document.getElementById('tbody-bi'); tb.innerHTML = "";
-                    r.resultados.forEach((res, i) => { 
+                   	r.resultados.forEach((res, i) => { 
                         let d = res.datosEncontrados; 
-                        let badge = d[18] && d[18] !== "NINGUNA" && d[18].trim() !== "" ? `<span style="color:#e74c3c; font-weight:bold; font-size:11px;">${d[18]}</span>` : `<span style="color:#27ae60; font-weight:bold; font-size:11px;">SIN NOVEDAD</span>`; 
                         
+                        // 🧠 LÓGICA DE DOBLE ETIQUETA VISUAL
+                        let n1 = (d[18] && d[18] !== "NINGUNA" && d[18].trim() !== "") ? d[18] : null;
+                        let n2 = (d[19] && d[19] !== "NINGUNA" && d[19].trim() !== "") ? d[19] : null;
+                        let badge = "";
+                        
+                        if (n1 && n2) {
+                            badge = `<span style="color:#c0392b; font-weight:bold; font-size:11px;">🔴 ${n1}</span><br><span style="color:#8e44ad; font-weight:bold; font-size:11px; margin-top:3px; display:inline-block;">🟣 ${n2}</span>`;
+                        } else if (n1) {
+                            badge = `<span style="color:#c0392b; font-weight:bold; font-size:11px;">🔴 ${n1}</span>`;
+                        } else if (n2) {
+                            badge = `<span style="color:#8e44ad; font-weight:bold; font-size:11px;">🟣 ${n2}</span>`;
+                        } else {
+                            badge = `<span style="color:#27ae60; font-weight:bold; font-size:11px;">✔️ SIN NOVEDAD</span>`;
+                        }
+
                         let btnFicha = (rolActivo === "ADMIN" || rolActivo === "VISITANTE SENIOR") ? `<button class="action-btn btn-bi" onclick="mostrarFichaBI(${i})">👁️ Ficha</button> ` : "";
                         
                         tb.innerHTML += `<tr><td><input type="checkbox" class="checkbox-lote-bi" value="${i}"></td><td><strong>${res.hojaOrigen}</strong></td><td>${d[3]}</td><td>${d[4]}<br><span style="font-size:11px; color:#7f8c8d;">CC: ${d[2]}</span></td><td>${badge}</td><td>${btnFicha}<button class="action-btn btn-pass" onclick="mostrarFormularioCompletoLectura(${i})">📋 Ver Todo</button></td></tr>`; 
@@ -1215,6 +1308,14 @@
             s('dir-unidad', d[0]); s('cedula', d[2]); s('grado', d[3]); s('nombres', d[4]); s('zona', d[5]); s('subzona', d[6]); s('distrito', d[7]); s('circuito', d[8]); s('subcircuito', d[9]); s('jefatura', d[10]); s('subsistema', d[11]); s('pase-dnath', d[12]); s('cargo-designado', d[13]); s('provincia', d[14]); s('estado-civil', d[15]); s('correo', d[16]); s('telefono', d[17]); s('novedad', d[18]); s('novedad1', d[19]); s('detalle', d[20]); s('documento', d[21]); 
             let fDesdeVal = formatearFechaParaHTML(d[22]); let fHastaVal = formatearFechaParaHTML(d[23]); s('fecha-desde', fDesdeVal); s('fecha-hasta', fHastaVal); let tipoDesdeVt = document.getElementById('vt-tipo-desde'); if (tipoDesdeVt) { tipoDesdeVt.value = (fDesdeVal || fHastaVal) ? "REGISTRAR" : "NINGUNA"; toggleFechas(tipoDesdeVt); }
             s('nuevos-requerimientos', d[24]); s('servidor-ubicacion', d[25]); s('grupos-trabajo', d[26]); s('fin-semana', d[27]); s('nivel-gestion', d[28]); s('fecha-nacimiento', formatearFechaParaHTML(d[29])); s('mes-nacimiento', d[30]); s('sexo', d[32]); s('promocion', d[33]); s('detalle-prom', d[34]); s('antiguedad', d[35]); s('fecha-ingreso', formatearFechaParaHTML(d[36])); s('fecha-ascenso', formatearFechaParaHTML(d[37])); s('fecha-prox-ascenso', formatearFechaParaHTML(d[38])); s('fecha-traslado-nueva', formatearFechaParaHTML(d[41]));
+			s('detalle2', d[45]); s('documento2', d[46]); 
+            let fDesdeVal2 = formatearFechaParaHTML(d[47]); let fHastaVal2 = formatearFechaParaHTML(d[48]); 
+            s('fecha-desde2', fDesdeVal2); s('fecha-hasta2', fHastaVal2); 
+            let tipoDesde2 = document.getElementById('vt-tipo-desde2'); 
+            if (tipoDesde2) { tipoDesde2.value = (fDesdeVal2 || fHastaVal2) ? "REGISTRAR" : "NINGUNA"; toggleFechas2(tipoDesde2); }
+            s('estado2', d[49]);
+			let selNovVt = document.getElementById('vt-novedad'); if(selNovVt) actualizarResumenNov(selNovVt);
+        	let selNov1Vt = document.getElementById('vt-novedad1'); if(selNov1Vt) actualizarResumenNov(selNov1Vt);
             document.getElementById('bi-formulario-completo').classList.remove('hidden');
         }
 
@@ -1236,11 +1337,37 @@
             .then(res => res.json()).then(r => { renderTablaActualizar(r, msj); if(r.status === "éxito") { calcularAlertasSilenciosas(r.resultados, false); cargarMisMensajes(); } }).catch(e => msj.innerHTML = "❌ Error").finally(() => { btn.innerText = "🔍 APLICAR FILTROS Y BUSCAR"; btn.disabled = false; });
         }
 
-        function renderTablaActualizar(r, msj) {
+       function renderTablaActualizar(r, msj) {
             if(r.status === "éxito") {
-                msj.innerHTML = `⚠️ ${r.resultados.length} coincidencias para actualización:`; window.resTemp = r.resultados; let h = ``;
-                r.resultados.forEach((x, i) => { let d = x.datosEncontrados; let hr = x.hojaOrigen; h += `<tr><td><input type="checkbox" class="checkbox-lote" value="${i}"></td><td><strong>${hr}</strong></td><td>${d[3]}</td><td>${d[4]}</td><td>${d[18]}</td><td><button class="action-btn btn-success" onclick="prepararEdicionIndividual(${i})">📝 Editar</button> <button class="action-btn btn-delete" onclick="eliminarServidor('${hr}', ${x.filaReal})">🗑️ Eliminar</button></td></tr>`; });
-                document.getElementById('tbody-upd').innerHTML = h; document.getElementById('upd-resultados-tabla').classList.remove('hidden');
+                msj.innerHTML = `⚠️ ${r.resultados.length} coincidencias para actualización:`; 
+                window.resTemp = r.resultados; 
+                let h = ``;
+                
+                // --- INICIO DEL CÓDIGO NUEVO (PASO 2) ---
+                r.resultados.forEach((x, i) => { 
+                    let d = x.datosEncontrados; let hr = x.hojaOrigen; 
+                    
+                    // 🧠 LÓGICA DE DOBLE ETIQUETA VISUAL (ACTUALIZAR)
+                    let n1 = (d[18] && d[18] !== "NINGUNA" && d[18].trim() !== "") ? d[18] : null;
+                    let n2 = (d[19] && d[19] !== "NINGUNA" && d[19].trim() !== "") ? d[19] : null;
+                    let novText = "";
+                    
+                    if(n1 && n2) {
+                        novText = `<span style="color:#c0392b; font-weight:bold; font-size:11px;">🔴 ${n1}</span><br><span style="color:#8e44ad; font-weight:bold; font-size:11px; margin-top:3px; display:inline-block;">🟣 ${n2}</span>`;
+                    } else if(n1) {
+                        novText = `<span style="color:#c0392b; font-weight:bold; font-size:11px;">🔴 ${n1}</span>`;
+                    } else if(n2) {
+                        novText = `<span style="color:#8e44ad; font-weight:bold; font-size:11px;">🟣 ${n2}</span>`;
+                    } else {
+                        novText = `<span style="color:#7f8c8d; font-weight:bold; font-size:11px;">NINGUNA</span>`;
+                    }
+
+                    h += `<tr><td><input type="checkbox" class="checkbox-lote" value="${i}"></td><td><strong>${hr}</strong></td><td>${d[3]}</td><td>${d[4]}</td><td>${novText}</td><td><button class="action-btn btn-success" onclick="prepararEdicionIndividual(${i})">📝 Editar</button> <button class="action-btn btn-delete" onclick="eliminarServidor('${hr}', ${x.filaReal})">🗑️ Eliminar</button></td></tr>`; 
+                });
+                // --- FIN DEL CÓDIGO NUEVO ---
+
+                document.getElementById('tbody-upd').innerHTML = h; 
+                document.getElementById('upd-resultados-tabla').classList.remove('hidden');
             } else msj.innerHTML = `❌ ${r.message}`;
         }
 
@@ -1271,6 +1398,14 @@
             s('dir-unidad', d[0]); s('cedula', d[2]); s('grado', d[3]); s('nombres', d[4]); s('zona', d[5]); s('subzona', d[6]); s('distrito', d[7]); s('circuito', d[8]); s('subcircuito', d[9]); s('jefatura', d[10]); s('subsistema', d[11]); s('pase-dnath', d[12]); s('cargo-designado', d[13]); s('provincia', d[14]); s('estado-civil', d[15]); s('correo', d[16]); s('telefono', d[17]); s('novedad', d[18]); s('novedad1', d[19]); s('detalle', d[20]); s('documento', d[21]); 
             let fDesdeValEd = formatearFechaParaHTML(d[22]); let fHastaValEd = formatearFechaParaHTML(d[23]); s('fecha-desde', fDesdeValEd); s('fecha-hasta', fHastaValEd); let tipoDesde = document.getElementById('ed-tipo-desde'); if (tipoDesde) { tipoDesde.value = (fDesdeValEd || fHastaValEd) ? "REGISTRAR" : "NINGUNA"; toggleFechas(tipoDesde); }
             s('nuevos-requerimientos', d[24]); s('servidor-ubicacion', d[25]); s('grupos-trabajo', d[26]); s('fin-semana', d[27]); s('nivel-gestion', d[28]); s('fecha-nacimiento', formatearFechaParaHTML(d[29])); s('mes-nacimiento', d[30]); s('sexo', d[32]); s('promocion', d[33]); s('detalle-prom', d[34]); s('antiguedad', d[35]); s('fecha-ingreso', formatearFechaParaHTML(d[36])); s('fecha-ascenso', formatearFechaParaHTML(d[37])); s('fecha-prox-ascenso', formatearFechaParaHTML(d[38])); s('fecha-traslado-nueva', formatearFechaParaHTML(d[41]));
+			s('detalle2', d[45]); s('documento2', d[46]); 
+            let fDesdeVal2 = formatearFechaParaHTML(d[47]); let fHastaVal2 = formatearFechaParaHTML(d[48]); 
+            s('fecha-desde2', fDesdeVal2); s('fecha-hasta2', fHastaVal2); 
+            let tipoDesde2 = document.getElementById('ed-tipo-desde2'); 
+            if (tipoDesde2) { tipoDesde2.value = (fDesdeVal2 || fHastaVal2) ? "REGISTRAR" : "NINGUNA"; toggleFechas2(tipoDesde2); }
+            s('estado2', d[49]);
+			let selNovEd = document.getElementById('ed-novedad'); if(selNovEd) actualizarResumenNov(selNovEd);
+        	let selNov1Ed = document.getElementById('ed-novedad1'); if(selNov1Ed) actualizarResumenNov(selNov1Ed);
             cont.classList.remove('hidden');
         }
 
@@ -1278,7 +1413,7 @@
 
         function ejecutarActualizacionRegistro(hoja, fila) {
             const g = (id) => { let e = document.getElementById('ed-'+id); let v = e ? e.value.toUpperCase() : ""; return (v==="NINGUNA"||v==="")?" ":v; };
-            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "" ];
+            let d = [ g("dir-unidad"), "", g("cedula"), g("grado"), g("nombres"), g("zona"), g("subzona"), g("distrito"), g("circuito"), g("subcircuito"), g("jefatura"), g("subsistema"), g("pase-dnath"), g("cargo-designado"), g("provincia"), g("estado-civil"), g("correo").toLowerCase(), g("telefono"), g("novedad"), g("novedad1"), g("detalle"), g("documento"), g("fecha-desde"), g("fecha-hasta"), g("nuevos-requerimientos"), g("servidor-ubicacion"), g("grupos-trabajo"), g("fin-semana"), g("nivel-gestion"), g("fecha-nacimiento"), g("mes-nacimiento"), "", g("sexo"), g("promocion"), g("detalle-prom"), g("antiguedad"), g("fecha-ingreso"), g("fecha-ascenso"), g("fecha-prox-ascenso"), "", "", g("fecha-traslado-nueva"), "", "", "", g("detalle2"), g("documento2"), g("fecha-desde2"), g("fecha-hasta2"), g("estado2") ];
             let cont = document.getElementById('contenedor-formulario-edicion'); let btn = cont.querySelector('.btn-guardar'); btn.innerText = "ACTUALIZANDO..."; btn.disabled = true; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "actualizar", hoja: hoja, fila: fila, datos: d, usuario_logueado: userLog }) }).then(res => res.json()).then(r => { if(r.status === "éxito") { alert("¡Registro actualizado!"); volverATablaUPD(); let btnFiltro = document.getElementById('btn-upd-exec'); if(btnFiltro && !btnFiltro.disabled) btnFiltro.click(); } else alert("Error: " + r.message); }).catch(e => alert("Error")).finally(() => { btn.innerText = "💾 GUARDAR CAMBIOS INDIVIDUALES"; btn.disabled = false; });
         }
@@ -1322,14 +1457,14 @@
         function abrirModalLote() { let checkboxes = document.querySelectorAll('.checkbox-lote:checked'); if(checkboxes.length === 0) return alert("Primero selecciona al menos a un servidor usando las casillas en la tabla de resultados."); document.getElementById('txt-lote-num').innerText = checkboxes.length; document.getElementById('modal-lote').classList.remove('hidden'); }
         function cerrarModalLote() { document.getElementById('modal-lote').classList.add('hidden'); document.getElementById('lote-campo-select').value = ""; document.getElementById('lote-input-container').innerHTML = ""; }
         
-	function mostrarInputLote(campoIndex) {
+		function mostrarInputLote(campoIndex) {
             let cont = document.getElementById('lote-input-container'); if (campoIndex === "") { cont.innerHTML = ""; return; } 
             let html = `<label style="color:var(--primary-color); font-weight:bold;">Ingresa los nuevos valores que se aplicarán a todos los seleccionados:</label><br><br>`;
             
-            // CIRUGÍA: SI ES NOVEDAD PRINCIPAL, PINTAMOS EL BLOQUE COMPLETO
-            if (campoIndex === "18") { 
+            // CIRUGÍA: NOVEDAD INTELIGENTE
+            if (campoIndex === "18_19") { 
                 html += `<div style="background:#f4f7fb; padding:15px; border-radius:8px; border:1px solid #c5d3e8;">
-                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">NOVEDAD PRINCIPAL</label>
+                            <label style="font-size:12px; font-weight:bold; color:var(--primary-color);">REGISTRO DE NOVEDAD (AUTO-ASIGNABLE)</label>
                             <select id="lote-val-final" style="width:100%; padding:8px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <option value="NINGUNA">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
                 let extra = localStorage.getItem('novedades_admin');
@@ -1361,24 +1496,19 @@
                                 <option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option>
                             </select>
                         </div>`;
-            } else if (campoIndex === "19") { 
-                html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="NINGUNA">NINGUNA</option><option value="APREHENSIÓN">APREHENSIÓN</option><option value="AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS">AUSENCIA INJUSTIFICADA HASTA POR VEINTICUATRO HORAS</option><option value="AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS">AUSENCIA INJUSTIFICADA MENOS DE 3 DÍAS</option><option value="AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS">AUSENCIA INJUSTIFICADA POR DOS DÍAS CONSECUTIVOS</option><option value="AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS">AUSENCIA INJUSTIFICADA POR MÁS DE 3 DÍAS</option><option value="COMISIÓN DE SERVICIOS AL EXTERIOR">COMISIÓN DE SERVICIOS AL EXTERIOR</option><option value="COMISIÓN DE SERVICIOS AL INTERIOR">COMISIÓN DE SERVICIOS AL INTERIOR</option><option value="TRASLADO OCASIONAL EN LA UNIDAD">TRASLADO OCASIONAL EN LA UNIDAD</option><option value="TRASLADO OCASIONAL FUERA DE LA UNIDAD">TRASLADO OCASIONAL FUERA DE LA UNIDAD</option><option value="CURSO">CURSO</option><option value="DETENCIÓN">DETENCIÓN</option><option value="FALLECIDO">FALLECIDO</option><option value="GESTACIÓN O EMBARAZO">GESTACIÓN O EMBARAZO</option><option value="HOSPITALIZACIÓN">HOSPITALIZACIÓN</option><option value="LACTANCIA">LACTANCIA</option><option value="VACACIONES">VACACIONES</option><option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option><option value="LICENCIA SIN REMUNERACIÓN">LICENCIA SIN REMUNERACIÓN</option><option value="MATERNIDAD O PARTO">MATERNIDAD O PARTO</option><option value="PERMISO IMPUTABLE A VACACIONES">PERMISO IMPUTABLE A VACACIONES</option><option value="TRASLADO EVENTUAL EN LA UNIDAD">TRASLADO EVENTUAL EN LA UNIDAD</option><option value="TRASLADO EVENTUAL FUERA DE LA UNIDAD">TRASLADO EVENTUAL FUERA DE LA UNIDAD</option><option value="TRASLADO TEMPORAL EN LA UNIDAD">TRASLADO TEMPORAL EN LA UNIDAD</option><option value="TRASLADO TEMPORAL FUERA DE LA UNIDAD">TRASLADO TEMPORAL FUERA DE LA UNIDAD</option><option value="PERMISO">PERMISO</option><option value="FRANCO">FRANCO</option><option value="FÍSICAMENTE">FÍSICAMENTE</option><option value="LEGALIZADOS">LEGALIZADOS</option><option value="LICENCIA CON REMUNERACIÓN">LICENCIA CON REMUNERACIÓN</option>`; 
-                let extra = localStorage.getItem('novedades_admin');
-                if(extra) { let arr = extra.split('|').filter(x => x.trim() !== ""); arr.forEach(nov => { html += `<option value="${nov}">⭐ ${nov}</option>`; }); }
-                html += `</select>`;
             } else if (campoIndex === "25") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="EN LA UNIDAD">EN LA UNIDAD</option><option value="FUERA DE LA UNIDAD">FUERA DE LA UNIDAD</option></select>`; } else if (campoIndex === "27") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="FRANCO">FRANCO</option><option value="QUEDADA">QUEDADA</option><option value="FUERA DE LA UNIDAD">FUERA DE LA UNIDAD</option></select>`; } else if (campoIndex === "3") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="POLI">POLI</option><option value="CBOS">CBOS</option><option value="CBOP">CBOP</option><option value="SGOS">SGOS</option><option value="SGOP">SGOP</option><option value="SBOS">SBOS</option><option value="SBOP">SBOP</option><option value="SBOM">SBOM</option><option value="SBTE">SBTE</option><option value="TNTE">TNTE</option><option value="CPTN">CPTN</option><option value="MAYR">MAYR</option><option value="TCNL">TCNL</option><option value="CRNL">CRNL</option><option value="GRAD">GRAD</option></select>`; } else if (campoIndex === "15") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="SOLTERO/A">SOLTERO/A</option><option value="CASADO/A">CASADO/A</option><option value="DIVORCIADO/A">DIVORCIADO/A</option><option value="UNIÓN DE HECHO">UNIÓN DE HECHO</option></select>`; } else if (campoIndex === "24") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="NINGUNA">NINGUNA</option><option value="VIGENTE">VIGENTE</option><option value="FENECIDO">FENECIDO</option></select>`; } else if (campoIndex === "0") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="DINIC">DINIC</option><option value="UDAR">UDAR</option><option value="UNDECOF">UNDECOF</option><option value="UCAP">UCAP</option></select>`; } else if (campoIndex === "5") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="ZONA 1">ZONA 1</option><option value="ZONA 2">ZONA 2</option><option value="ZONA 3">ZONA 3</option><option value="ZONA 4">ZONA 4</option><option value="ZONA 5">ZONA 5</option><option value="ZONA 6">ZONA 6</option><option value="ZONA 7">ZONA 7</option><option value="ZONA 8">ZONA 8</option><option value="ZONA 9">ZONA 9</option></select>`; } else if (campoIndex === "28") { html += `<select id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;"><option value="DIRECTIVOS">DIRECTIVOS</option><option value="TÉCNICOS OPERATIVOS">TÉCNICOS OPERATIVOS</option></select>`; } else if (campoIndex === "22" || campoIndex === "23" || campoIndex === "29" || campoIndex === "36" || campoIndex === "37" || campoIndex === "38" || campoIndex === "41") { html += `<input type="date" id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px;">`; } else { html += `<input type="text" id="lote-val-final" style="width:100%; padding:10px; border: 1px solid #ccc; border-radius: 6px; text-transform: uppercase;">`; }
             cont.innerHTML = html;
         }
-
+	
        async function ejecutarLoteDefinitivo() {
             let campo = document.getElementById('lote-campo-select').value; if(!campo) return alert("Elige un campo a actualizar.");
             let valorInput = document.getElementById('lote-val-final'); if(!valorInput || valorInput.value === "") return alert("Ingresa el nuevo valor.");
             let valor = valorInput.type === "date" ? valorInput.value : valorInput.value.toUpperCase();
             if (valor === "NINGUNA" || valor === "") valor = " "; 
 
-            // CIRUGÍA: CAPTURAR LOS 6 CAMPOS SI ES LA NOVEDAD PRINCIPAL
+            // 🧠 CAPTURAR LOS CAMPOS SI ES LA NOVEDAD INTELIGENTE
             let valDetalle = " ", valDoc = " ", valFDesde = " ", valFHasta = " ", valReq = " ";
-            if(campo === "18") {
+            if(campo === "18_19") {
                 valDetalle = document.getElementById('lote-detalle').value.toUpperCase() || " ";
                 valDoc = document.getElementById('lote-documento').value.toUpperCase() || " ";
                 valFDesde = document.getElementById('lote-fecha-desde').value || " ";
@@ -1389,40 +1519,59 @@
             }
 
             let checkboxes = document.querySelectorAll('.checkbox-lote:checked');
-            if(!confirm(`Se actualizará el campo para ${checkboxes.length} servidores.\n¿Estás seguro de proceder?`)) return;
+            if(!confirm(`Se evaluará la actualización masiva para ${checkboxes.length} servidores.\n¿Estás seguro de proceder?`)) return;
             
             let btn = document.getElementById('btn-ejecutar-lote-final'); btn.innerText = "⏳ PROCESANDO..."; btn.disabled = true; 
             let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci');
             
             let paquetesLote = [];
+            let omitidos = []; // 🛡️ Escudo
+
             for(let i=0; i<checkboxes.length; i++) { 
                 let idx = checkboxes[i].value; 
                 let reg = window.resTemp[idx]; 
                 let hr = reg.hojaOrigen; 
                 let d = reg.datosEncontrados; 
-                d[parseInt(campo)] = valor;
                 
-                // INYECTAMOS TODOS LOS DATOS EN LA MATRIZ
-                if(campo === "18") {
-                    d[20] = valDetalle;
-                    d[21] = valDoc;
-                    d[22] = valFDesde;
-                    d[23] = valFHasta;
-                    d[24] = valReq;
+                // 🧠 LÓGICA DE ESCANEO DE ESPACIOS
+                if(campo === "18_19") {
+                    let nov1Vacia = (!d[18] || d[18].trim() === "" || d[18] === "NINGUNA");
+                    let nov2Vacia = (!d[19] || d[19].trim() === "" || d[19] === "NINGUNA");
+
+                    if(nov1Vacia) {
+                        d[18] = valor; d[20] = valDetalle; d[21] = valDoc; d[22] = valFDesde; d[23] = valFHasta; d[24] = valReq;
+                        paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
+                    } else if(nov2Vacia) {
+                        d[19] = valor; d[45] = valDetalle; d[46] = valDoc; d[47] = valFDesde; d[48] = valFHasta; d[49] = valReq;
+                        paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
+                    } else {
+                        omitidos.push(d[4] + " (CI: " + d[2] + ")");
+                    }
+                } else {
+                    d[parseInt(campo)] = valor;
+                    paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
                 }
-                paquetesLote.push({ hoja: hr, fila: reg.filaReal, datos: d });
             }
             
-            try { 
-                let res = await fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "actualizarLote", lotes: paquetesLote, usuario_logueado: userLog }) });
-                let r = await res.json();
-                if(r.status === "éxito") {
-                    alert(`✅ Lote completado ultrarrápido exitosamente.`); 
-                } else {
-                    alert("❌ Hubo un error en la actualización masiva.");
+            // EJECUCIÓN FINAL Y REPORTE AL USUARIO
+            if(paquetesLote.length > 0) {
+                try { 
+                    let res = await fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({ accion: "actualizarLote", lotes: paquetesLote, usuario_logueado: userLog }) });
+                    let r = await res.json();
+                    if(r.status === "éxito") {
+                        let msjFinal = `✅ Lote completado exitosamente.\nSe actualizaron ${paquetesLote.length} registros.`;
+                        if(omitidos.length > 0) {
+                            msjFinal += `\n\n⚠️ SE OMITIERON ${omitidos.length} SERVIDORES porque ya tienen 2 novedades activas y no hay espacio:\n\n- ` + omitidos.join("\n- ") + "\n\nPor favor, edítelos manualmente usando el botón 'Editar'.";
+                        }
+                        alert(msjFinal); 
+                    } else {
+                        alert("❌ Hubo un error en la actualización masiva.");
+                    }
+                } catch(e) {
+                    alert("❌ Error de red al enviar el lote.");
                 }
-            } catch(e) {
-                alert("❌ Error de red al enviar el lote.");
+            } else {
+                alert(`⚠️ OPERACIÓN ABORTADA.\nNo se actualizó ningún registro.\n\nTodos los servidores seleccionados ya tienen sus 2 espacios de novedad ocupados:\n\n- ` + omitidos.join("\n- "));
             }
             
             btn.innerText = "Aplicar a Todos"; btn.disabled = false; cerrarModalLote(); 
@@ -1540,6 +1689,28 @@
         function guardarNovedadesBackend() { let extra = localStorage.getItem('novedades_admin') || ""; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; let btn = document.querySelector('button[onclick="guardarNovedadesBackend()"]'); btn.innerText = "Guardando..."; btn.disabled = true; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "guardarNovedadesAdmin", novedades_admin: extra, usuario_logueado: userLog}) }).then(r => r.json()).then(res => { if(res.status === "éxito") alert("✅ Novedades guardadas en la base. Todos los usuarios las verán la próxima vez que inicien sesión."); }).finally(() => { btn.innerText = "💾 Guardar Novedades en el Sistema"; btn.disabled = false; }); }
         function renderConfigOrganicoAdmin() { let conf = JSON.parse(localStorage.getItem('config_organico') || '{}'); document.getElementById('org-on-general').value = conf.on_general || 0; document.getElementById('org-on-dinic-planta').value = conf.on_dinic_planta || 0; document.getElementById('org-on-udar').value = conf.on_udar || 0; document.getElementById('org-on-undecof').value = conf.on_undecof || 0; document.getElementById('org-on-ucap').value = conf.on_ucap || 0; }
         function guardarConfigOrganico() { let conf = { on_general: document.getElementById('org-on-general').value, on_dinic_planta: document.getElementById('org-on-dinic-planta').value, on_udar: document.getElementById('org-on-udar').value, on_undecof: document.getElementById('org-on-undecof').value, on_ucap: document.getElementById('org-on-ucap').value }; let userLog = localStorage.getItem('nombre') || localStorage.getItem('usuario_ci') || "Súper Admin"; let btn = document.querySelector('button[onclick="guardarConfigOrganico()"]'); btn.innerText = "Guardando..."; btn.disabled = true; fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "guardarConfigOrganico", config: conf, usuario_logueado: userLog}) }).then(r => r.json()).then(res => { if(res.status === "éxito") { alert("✅ Valores del Orgánico Numérico guardados exitosamente."); localStorage.setItem('config_organico', JSON.stringify(conf)); cargarAuditoria(); } }).finally(() => { btn.innerText = "💾 Guardar Orgánico Numérico"; btn.disabled = false; }); }
+		function toggleFechas2(el) { 
+            let prefix = ''; if (el && el.id) { if (el.id.startsWith('ed-')) prefix = 'ed-'; else if (el.id.startsWith('vt-')) prefix = 'vt-'; } 
+            let tipo = document.getElementById(prefix + 'tipo-desde2').value; let fDesde = document.getElementById(prefix + 'fecha-desde2'); let dDesde = document.getElementById(prefix + 'dias-desde2');
+            let fHasta = document.getElementById(prefix + 'fecha-hasta2'); let txt = document.getElementById(prefix + 'hasta-ninguna2'); let req = document.getElementById(prefix + 'estado2');
+            if (tipo === 'NINGUNA') { fDesde.classList.add('hidden'); fDesde.value = ''; dDesde.classList.add('hidden'); dDesde.value = ''; fHasta.classList.add('hidden'); fHasta.value = ''; txt.classList.remove('hidden');
+            if(req) { req.value = 'NINGUNA'; req.disabled = true; req.classList.add('readonly-field'); } } else { fDesde.classList.remove('hidden'); dDesde.classList.remove('hidden'); fHasta.classList.remove('hidden'); txt.classList.add('hidden');
+            if(req) { if(req.value === 'NINGUNA') req.value = ''; req.disabled = false; req.classList.remove('readonly-field'); } } evaluarVigenciaTemporal2(prefix);
+        }
+        function calcularHasta2(el) { 
+            let prefix = el && el.id && el.id.startsWith('ed-') ? 'ed-' : ''; let fD = document.getElementById(prefix + 'fecha-desde2').value; let d = parseInt(document.getElementById(prefix + 'dias-desde2').value);
+            let fH = document.getElementById(prefix + 'fecha-hasta2'); if (fD && !isNaN(d) && d > 0) { let obj = new Date(fD);
+            obj.setDate(obj.getDate() + (d - 1)); fH.value = obj.toISOString().split('T')[0]; fH.setAttribute('readonly', true); fH.classList.add('readonly-field'); } else { fH.removeAttribute('readonly'); fH.classList.remove('readonly-field'); } evaluarVigenciaTemporal2(prefix);
+        }
+        function evaluarVigenciaTemporal2(prefix) { 
+            let inputHasta = document.getElementById(prefix + 'fecha-hasta2');
+            let inputEstado = document.getElementById(prefix + 'estado2'); if(inputHasta && inputHasta.value && inputEstado) { const fechaLimite = new Date(inputHasta.value + "T00:00:00");
+            const fechaActual = new Date(); fechaActual.setHours(0,0,0,0); if(fechaLimite >= fechaActual) { inputEstado.value = "VIGENTE"; inputEstado.style.backgroundColor = "#d4edda"; inputEstado.style.color = "#155724";
+            } else { inputEstado.value = "FENECIDO"; inputEstado.style.backgroundColor = "#f8d7da"; inputEstado.style.color = "#721c24";
+            } } else if (inputEstado) { inputEstado.style.backgroundColor = ""; inputEstado.style.color = "";
+            } 
+        }
+        document.addEventListener('change', function(e) { if(e.target.id === 'fecha-desde2' || e.target.id === 'fecha-hasta2') evaluarVigenciaTemporal2(''); if(e.target.id === 'ed-fecha-desde2' || e.target.id === 'ed-fecha-hasta2') evaluarVigenciaTemporal2('ed-'); });
     </script>
 </body>
 </html>
