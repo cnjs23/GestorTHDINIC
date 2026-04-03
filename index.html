@@ -963,12 +963,18 @@
 		function marcarDesmarcarTodos(estado) { document.querySelectorAll('.checkbox-lote').forEach(cb => cb.checked = estado); }
         function descargarExcelLista() {
             let lista = JSON.parse(localStorage.getItem('lista_exportacion') || '[]'); if(lista.length === 0) return alert("No hay datos para exportar.");
-            let dataExcel = []; let cabeceras = [ "DIRECCIÓN/UNIDAD", "VACÍO", "CÉDULA", "GRADO", "NOMBRES", "ZONA", "SUBZONA", "DISTRITO", "CIRCUITO", "SUBCIRCUITO", "JEFATURA", "SUBSISTEMA", "PASE DNATH", "CARGO DESIGNADO", "PROVINCIA VIVE", "ESTADO CIVIL", "CORREO", "TELÉFONO", "NOVEDAD", "NOVEDAD 1", "DETALLE", "DOCUMENTO", "DESDE", "HASTA", "NUEVOS REQUERIMIENTOS", "UBICACIÓN", "GRUPOS TRABAJO", "FIN SEMANA", "NIVEL GESTIÓN" ]; dataExcel.push(cabeceras);
-            lista.forEach(item => { let d = item.datosEncontrados; let fila = []; for(let i=0; i<=28; i++) { fila.push(d[i] || ""); } dataExcel.push(fila); });
+            let dataExcel = []; 
+            // 🧠 INCISIÓN: Ampliamos las cabeceras para abarcar exactamente las 50 columnas de tu matriz
+            let cabeceras = [ "DIRECCIÓN/UNIDAD", "VACÍO", "CÉDULA", "GRADO", "NOMBRES", "ZONA", "SUBZONA", "DISTRITO", "CIRCUITO", "SUBCIRCUITO", "JEFATURA", "SUBSISTEMA", "PASE DNATH", "CARGO DESIGNADO", "PROVINCIA VIVE", "ESTADO CIVIL", "CORREO", "TELÉFONO", "NOVEDAD", "NOVEDAD 1", "DETALLE", "DOCUMENTO", "DESDE", "HASTA", "NUEVOS REQUERIMIENTOS", "UBICACIÓN", "GRUPOS TRABAJO", "FIN SEMANA", "NIVEL GESTIÓN", "FECHA_NACIMIENTO", "MES_NACIMIENTO", "EDAD", "SEXO", "PROMOCIÓN", "DETALLE PROM.", "ANTIGÜEDAD", "FECHA_INGRESO", "FECHA_ASCENSO", "FECHA_PROX_ASCENSO", "COLUMNA_39", "COLUMNA_40", "FECHA_TRASLADO_NUEVA", "TIEMPO_2", "VACACIONES", "ALTA_DEMANDA", "DETALLE_2", "DOCUMENTO_2", "DESDE_2", "HASTA_2", "ESTADO_2" ]; 
+            dataExcel.push(cabeceras);
+            
+            // 🧠 INCISIÓN: Cambiamos el límite de i<=28 a i<50 para extraer toda la fila
+            lista.forEach(item => { let d = item.datosEncontrados; let fila = []; for(let i=0; i<50; i++) { fila.push(d[i] || ""); } dataExcel.push(fila); });
+            
             try {
                 let ws = XLSX.utils.aoa_to_sheet(dataExcel); let wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Personal Filtrado"); XLSX.writeFile(wb, "Reporte_DINIC_Personal.xlsx");
-                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "logExtra", usuario_logueado: localStorage.getItem('usuario_ci'), accion_log: "EXPORTAR EXCEL", detalle_log: `Descargó un archivo Excel con ${lista.length} servidores.`})});
-                alert("✅ Descarga de Excel completada.");
+                fetch(URL_APPS_SCRIPT, { method: 'POST', body: JSON.stringify({accion: "logExtra", usuario_logueado: localStorage.getItem('usuario_ci'), accion_log: "EXPORTAR EXCEL TOTAL", detalle_log: `Descargó un archivo Excel completo con ${lista.length} servidores y 50 columnas.`})});
+                alert("✅ Descarga de Excel completada con todas las columnas.");
             } catch (e) { alert("❌ Error al generar el Excel."); }
         }
 
