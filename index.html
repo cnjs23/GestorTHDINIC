@@ -24,7 +24,7 @@
         .badge { position: absolute; top: -8px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; }
 
         .nav-container { display: flex; justify-content: center; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
-        .nav-btn { background: none; border: none; padding: 16px 35px; font-size: 15px; font-weight: bold; color: #6c7a89; cursor: pointer; transition: all 0.3s ease; border-bottom: 4px solid transparent; }
+        .nav-btn { background: none; border: none; padding: 16px 20px; font-size: 14px; font-weight: bold; color: #6c7a89; cursor: pointer; transition: all 0.3s ease; border-bottom: 4px solid transparent; }
         .nav-btn:hover { color: var(--secondary-color); background-color: #f8f9fa; }
         .nav-btn.active { color: var(--primary-color); border-bottom: 4px solid var(--primary-color); background-color: #f4f7fb; }
         .btn-bi { color: #8e44ad; } .btn-bi:hover { background-color: #f4ecf7; color: #9b59b6; } .btn-bi.active { color: #8e44ad; border-bottom-color: #8e44ad; }
@@ -216,6 +216,7 @@
             <button class="nav-btn mod-write" onclick="showModule(event, 'modulo-actualizar')">ACTUALIZAR DETHA</button>
             <button class="nav-btn mod-write" onclick="showModule(event, 'modulo-agregar')">AGREGAR NUEVO</button>
             <button id="nav-dash" class="nav-btn" onclick="showModule(event, 'modulo-dashboard')" style="color:#3498db;">📊 DASHBOARD</button>
+			<button class="nav-btn mod-nov hidden" onclick="window.open('https://script.google.com/macros/s/AKfycbzS5Zm9xt9wpTHyuPBCmfdHX7UFjaITsn7RNEPjw3vBI5q67bLoBhm3VEaQ2b5VppJy/exec', '_blank')" style="color:#f39c12;">📋 REGISTRO NOVEDADES</button>
             <button id="nav-btn-admin" class="nav-btn admin-btn mod-admin hidden" onclick="showModule(event, 'modulo-superadmin')">🔒 SÚPER ADMIN</button>
         </div>
 
@@ -226,17 +227,20 @@
                 <p style="text-align: center; color: #7f8c8d;">Seleccione el módulo al que desea ingresar.</p>
                 
                 <div class="welcome-grid">
-                    <div class="welcome-card" onclick="document.querySelector('.btn-bi').click()">
-                        <div class="icon-large">🔍</div><h3 style="color:#8e44ad;">Consultar Personal</h3><p>Inteligencia de Datos y Búsqueda (Solo Lectura)</p>
+                    <div class="welcome-card" style="border-color:#8e44ad;" onclick="document.querySelector('.btn-bi').click()">
+                        <div class="icon-large" style="color:#8e44ad;">🔍</div><h3 style="color:#8e44ad;">Consultar Personal</h3><p>Inteligencia de Datos y Búsqueda (Solo Lectura)</p>
                     </div>
-                    <div class="welcome-card mod-write" onclick="document.querySelectorAll('.nav-btn')[2].click()">
-                        <div class="icon-large">📝</div><h3>Actualizar DETHA</h3><p>Edición y actualización de novedades</p>
+                    <div class="welcome-card mod-write" style="border-color:#0b4a8f;" onclick="document.querySelectorAll('.nav-btn')[2].click()">
+                        <div class="icon-large" style="color:#0b4a8f;">📝</div><h3 style="color:#0b4a8f;">Actualizar DETHA</h3><p>Edición y actualización de novedades</p>
                     </div>
-                    <div class="welcome-card mod-write" onclick="document.querySelectorAll('.nav-btn')[3].click()">
-                        <div class="icon-large">➕</div><h3>Agregar Nuevo</h3><p>Ingreso de nuevos servidores policiales</p>
+                    <div class="welcome-card mod-write" style="border-color:#7f8c8d;" onclick="document.querySelectorAll('.nav-btn')[3].click()">
+                        <div class="icon-large" style="color:#7f8c8d;">➕</div><h3 style="color:#7f8c8d;">Agregar Nuevo</h3><p>Ingreso de nuevos servidores policiales</p>
                     </div>
-                    <div id="card-dash" class="welcome-card" onclick="document.querySelectorAll('.nav-btn')[4].click()">
+                    <div id="card-dash" class="welcome-card" style="border-color:#3498db;" onclick="document.querySelectorAll('.nav-btn')[4].click()">
                         <div class="icon-large" style="color:#3498db;">📊</div><h3 style="color:#3498db;">Dashboard</h3><p>Visualización de indicadores y estadísticas</p>
+                    </div>
+                    <div class="welcome-card mod-nov hidden" style="border-color:#f39c12;" onclick="document.querySelector('.mod-nov').click()">
+                        <div class="icon-large" style="color:#f39c12;">📋</div><h3 style="color:#f39c12;">Registro Novedades</h3><p>Registro inteligente de novedades</p>
                     </div>
                     <div id="card-admin" class="welcome-card mod-admin hidden" style="border-color:var(--danger-color);" onclick="document.getElementById('nav-btn-admin').click()">
                         <div class="icon-large">🔒</div><h3 style="color:var(--danger-color);">Súper Admin</h3><p>Gestión de roles, auditoría y mensajería</p>
@@ -908,10 +912,14 @@
         };
 
         function configurarInterfazPorRol(rol) {
-            document.querySelectorAll('.mod-write').forEach(el => el.classList.add('hidden')); document.getElementById('nav-btn-admin').classList.add('hidden'); document.getElementById('card-admin').classList.add('hidden'); document.getElementById('btn-mensajes').classList.remove('hidden'); document.getElementById('btn-lista-export').classList.remove('hidden'); 
+            document.querySelectorAll('.mod-write').forEach(el => el.classList.add('hidden')); 
+            document.querySelectorAll('.mod-nov').forEach(el => el.classList.add('hidden')); // 🛡️ Oculta el módulo de Novedades por defecto
+            document.getElementById('nav-btn-admin').classList.add('hidden'); document.getElementById('card-admin').classList.add('hidden'); document.getElementById('btn-mensajes').classList.remove('hidden'); document.getElementById('btn-lista-export').classList.remove('hidden');
             let navDash = document.getElementById('nav-dash'), cardDash = document.getElementById('card-dash'), tabAlertas = document.getElementById('tab-alertas');
             if(navDash) navDash.classList.remove('hidden'); if(cardDash) cardDash.style.display = "block"; if(tabAlertas) tabAlertas.style.display = "inline-block";
-
+            if (["ADMIN", "ANALISTA DINIC", "ASISTENTE DINIC"].includes(rol)) {
+                document.querySelectorAll('.mod-nov').forEach(el => el.classList.remove('hidden'));
+            }
             if (rol === "ADMIN") {
                 document.querySelectorAll('.mod-write').forEach(el => el.classList.remove('hidden')); document.getElementById('nav-btn-admin').classList.remove('hidden'); document.getElementById('card-admin').classList.remove('hidden');
                 loadUsersTable(); cargarAuditoria(); cargarConfigWP(); renderNovedadesAdmin(); renderConfigOrganicoAdmin(); 
